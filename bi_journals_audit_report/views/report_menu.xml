@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="bi_menu_journals_audit_parent" name="Journal Reports" parent="account.menu_finance_reports"/>
+
+        <record id="bi_action_journals_audit" model="ir.actions.act_window">
+            <field name="name">Journals Audit</field>
+            <field name="res_model">bi.journals.audit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="bi_journals_audit_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="bi_menu_journals_audit" name="Journals Audit"
+                  action="bi_action_journals_audit"
+                  parent="bi_menu_journals_audit_parent"/>
+
+    </data>
+</odoo>

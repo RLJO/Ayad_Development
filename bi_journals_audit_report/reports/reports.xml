@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="bi_journals_audit_action"
+                model="bi.journals.audit"
+                string="Journals Audit"
+                report_type="qweb-pdf"
+                name="bi_journals_audit_report.report_journals_audit"
+                file="bi_journals_audit_report.report_journals_audit"
+        />
+    </data>
+</odoo>
