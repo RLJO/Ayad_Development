@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+
+        <record id="mail_activity_data_whatsapp" model="mail.activity.type">
+            <field name="name">What's App</field>
+            <field name="icon">fa-warning</field>
+            <field name="sequence">3</field>
+        </record>
+
+
+
+    </data>
+</odoo>
