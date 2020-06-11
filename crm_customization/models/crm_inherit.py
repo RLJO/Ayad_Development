@@ -6,4 +6,8 @@ class CrmInherit(models.Model):
 
     visited = fields.Boolean('Visited')
 
-    select_project = fields.Selection([('site1', 'Site 1'), ('site2', 'Site 2')], string= 'Projects')
+    select_project = fields.Selection([('project1', 'Project 1'), ('project2', 'projectt 2')], string= 'Projects')
+
+    select_site = fields.Selection([('apat', 'Apartment'), ('house', 'House'), ('parcel', 'Parcelling')], string= 'Site')
+
+    interest = fields.Char('Interest')

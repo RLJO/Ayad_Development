@@ -9,6 +9,8 @@
             <xpath expr="//field[@name='mobile']" position="after">
                 <field name="visited"/>
                 <field name="select_project" attrs="{'invisible': [('visited','=', False)]}"/>
+                <field name="select_site" attrs="{'invisible': [('select_project','=', False)]}"/>
+                <field name="interest" attrs="{'invisible': [('select_site','=', False)]}"/>
             </xpath>
 
         </field>
