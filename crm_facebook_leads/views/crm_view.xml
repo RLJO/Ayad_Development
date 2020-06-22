@@ -78,6 +78,7 @@
             <form string="Facebook Page">
                 <button name="get_forms" type="object" string="Get Forms"/>
                 <group colspan="2">
+                    <field name="fb_name"/>
                     <field name="name"/>
                     <field name="access_token" password="1" class="oe_edit_only"/>
                 </group>
@@ -104,6 +105,7 @@
         <field name="arch" type="xml">
             <tree string="Facebook Page">
                 <field name="name"/>
+                <field name="fb_name"/>
             </tree>
         </field>
     </record>

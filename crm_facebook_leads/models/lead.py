@@ -14,6 +14,7 @@ class CrmFacebookPage(models.Model):
     _description = 'Facebook Page'
 
     name = fields.Char(required=True)
+    fb_name = fields.Char(string='Facebook Page Name', required=True,)
     access_token = fields.Char(required=True, string='Page Access Token')
     form_ids = fields.One2many('crm.facebook.form', 'page_id', string='Lead Forms')
 
@@ -197,6 +198,28 @@ class CrmLead(models.Model):
             vals['contact_name'] = lead['full_name']
         if not vals.get('phone') and lead.get('phone_number'):
             vals['phone'] = lead['phone_number']
+
+
+        mail = vals.get('email_from')
+        phone = vals.get('phone')
+
+        contact_searc_obj = self.env['res.partner'].search([('email', '=', vals['email_from']), ('phone', '=', vals['phone'])])
+
+        if contact_searc_obj:
+            vals.update({'partner_id': contact_searc_obj.id})
+
+        else:
+            contact_id = self.env['res.partner'].create({
+                                                        'name': vals.get('contact_name'),
+                                                        'email': vals.get('email_from'),
+                                                        'phone': vals.get('phone'),
+                                                        'customer': True,
+                                                        'company_type': 'person',
+                                                        })
+
+            vals.update({'partner_id': contact_id.id})
+
+
         vals.update({
             'facebook_lead_id': lead['id'],
             'facebook_is_organic': lead['is_organic'],
@@ -221,7 +244,8 @@ class CrmLead(models.Model):
 
     def get_opportunity_name(self, vals, lead, form):
         if not vals.get('name'):
-            vals['name'] = '%s - %s' % (form.name, vals['contact_name'])
+            # vals['name'] = '%s - %s' % (form.name, vals['contact_name'])
+            vals['name'] = '%s - %s' % (self.facebook_page_id.fb_name, vals['contact_name'])
         return vals['name']
 
     def get_fields_from_data(self, lead, form):
