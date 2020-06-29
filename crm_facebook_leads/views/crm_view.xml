@@ -12,10 +12,10 @@
         <field name="code" eval="'model.get_facebook_leads()'"/>
     </record>
 
-    <record id="custom_leads_tree_view" model="ir.ui.view">
-        <field name="name">custom.leads.tree.view</field>
+    <record id="custom_opp_tree_view" model="ir.ui.view">
+        <field name="name">custom.opp.tree.view</field>
         <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='create_date']" position="replace">

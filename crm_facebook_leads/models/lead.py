@@ -245,7 +245,7 @@ class CrmLead(models.Model):
     def get_opportunity_name(self, vals, lead, form):
         if not vals.get('name'):
             # vals['name'] = '%s - %s' % (form.name, vals['contact_name'])
-            vals['name'] = '%s - %s' % (self.facebook_page_id.fb_name, vals['contact_name'])
+            vals['name'] = '%s - %s' % (form.page_id.fb_name, vals['contact_name'])
         return vals['name']
 
     def get_fields_from_data(self, lead, form):
