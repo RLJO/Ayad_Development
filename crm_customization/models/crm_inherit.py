@@ -6,8 +6,13 @@ class CrmInherit(models.Model):
 
     visited = fields.Boolean('Visited')
 
-    select_project = fields.Selection([('project1', 'Project 1'), ('project2', 'projectt 2')], string= 'Projects')
+    select_project = fields.Many2one('project.site', string='Projects')
 
-    select_site = fields.Selection([('apat', 'Apartment'), ('house', 'House'), ('parcel', 'Parcelling')], string= 'Site')
+    select_site = fields.Many2one('product.template', string= 'Site')
 
     interest = fields.Char('Interest')
+
+    @api.onchange('select_project')
+    def status_project(self):
+        for rec in self:
+            return {'domain': {'select_site': [('partner_id', '=', rec.select_project)]}}

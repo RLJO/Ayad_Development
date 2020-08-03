@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_site,access.project.site,custom_project.model_project_site,base.group_user,1,1,1,1
+access_project_part,access.project.part,custom_project.model_project_part,base.group_user,1,1,1,1
+access_project_status,access.project.status,custom_project.model_project_status,base.group_user,1,1,1,1
+access_project_type,access.project.type,custom_project.model_project_type,base.group_user,1,1,1,1
+
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="project_site_menu" name="Project Details"/>
+
+        <record id="project_status_form" model="ir.ui.view">
+            <field name="name">project.status.form</field>
+            <field name="model">project.status</field>
+            <field name="arch" type="xml">
+                <form string="Project Status">
+                    <group col="4">
+                        <field name="name"/>
+
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_status_action" model="ir.actions.act_window">
+            <field name="name">Project Status</field>
+            <field name="res_model">project.status</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    test
+                </p><p>
+                    Description goes Here.
+                </p>
+            </field>
+        </record>
+
+            <menuitem id="project_status_main_menu" name="Project Status Details"
+               action="project_status_action"
+              parent="project_site_menu"/>
+
+    </data>
+</odoo>
