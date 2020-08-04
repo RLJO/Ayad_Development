@@ -15,4 +15,4 @@ class CrmInherit(models.Model):
     @api.onchange('select_project')
     def status_project(self):
         for rec in self:
-            return {'domain': {'select_site': [('partner_id', '=', rec.select_project)]}}
+            return {'domain': {'select_site': [('project_no', '=', rec.select_project.id)]}}
