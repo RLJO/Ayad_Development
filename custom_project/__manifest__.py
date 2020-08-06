@@ -18,8 +18,7 @@
         'views/project_status.xml',
         'views/project_type.xml',
         'views/inventory_inherit_view.xml',
-
-
+        'views/email_notify.xml',
     ],
     'demo': [
     ],
