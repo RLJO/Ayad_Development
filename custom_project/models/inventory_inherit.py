@@ -10,7 +10,7 @@ class InventoryFields(models.Model):
     building_no = fields.Integer('Building No:')
     floor_no = fields.Integer('Floor No:')
     type_id = fields.Selection([('o','Under Construction'),('b','Developed')],string='Type:')
-    price = fields.Float("Price:")
+    proj_price = fields.Float("Price:")
     status = fields.Selection([('s','Sold'),('u','Unsold')],string='Status:')
     surface = fields.Char('Surface:')
 
