@@ -9,6 +9,7 @@ class ProjectSite(models.Model):
     status = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')])
     payment_terms = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Payment Terms')
     part = fields.Many2many('project.part', string='Part')
+    project_ids = fields.One2many('project.details.line','project_ids',string='Project No:')
 
 # A function to change the payment_terms by selecting status field.
 
@@ -19,11 +20,17 @@ class ProjectSite(models.Model):
                 rec.payment_terms = rec.status
 
 
-class SalesOrderInherit(models.Model):
 
-    _inherit = 'sale.order'
+class ProjectDetailsLine(models.Model):
 
-    ref_no = fields.Many2one('res.partner',string='Reference No:')
+    _name = 'project.details.line'
+
+    project_ids = fields.Many2one('project.site',string='Project ID:',ondelete='cascade')
+    product_id = fields.Many2one('product.template',string='Product ID:')
+    ref_no = fields.Char('Reference No:',store=True)
+    status = fields.Selection([('sold', 'Sold'), ('unsold', 'Unsold')],string='Status:')
+
+
 
 
 class ProjectType(models.Model):
