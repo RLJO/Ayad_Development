@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="sale_order_form_view" model="ir.ui.view">
@@ -6,10 +7,13 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="ref_no"/>
+                    <field name="ref_nos"/>
                 </xpath>
 
             </field>
         </record>
+
     </data>
 </odoo>
+
+
