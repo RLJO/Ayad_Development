@@ -14,6 +14,7 @@
                     <field name="proj_price"/>
                     <field name="status"/>
                     <field name="surface"/>
+
                 </xpath>
             </field>
         </record>
@@ -30,6 +31,22 @@
                     <field name="ref_no"/>
                     <field name="part"/>
                     <field name="building_no"/>
+
+                    <label for="built_up_no"/>
+                    <div class="o_row">
+                        <field name="built_up_no"/><span>meter square</span>
+                    </div>
+
+                   <label for="carpet_area_no"/>
+                    <div class="o_row">
+                        <field name="carpet_area_no"/><span>meter square</span>
+                    </div>
+
+                    <label for="terrace_area_no"/>
+                    <div class="o_row">
+                        <field name="terrace_area_no"/><span>meter square</span>
+                    </div>
+
                 </xpath>
             </field>
         </record>
@@ -78,6 +95,7 @@
             </field>
         </record>
 
+
         <!--        Search view of product_template-->
         <record id="product_template_search_view_inherit" model="ir.ui.view">
             <field name="name">product.template.search.view</field>
@@ -94,6 +112,7 @@
                 </xpath>
             </field>
         </record>
+
 
     </data>
 </odoo>
