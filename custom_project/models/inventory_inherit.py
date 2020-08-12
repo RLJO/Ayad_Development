@@ -27,7 +27,7 @@ class InventoryFields(models.Model):
     @api.model
     def create(self, vals):
         res = super(InventoryFields,self).create(vals)
-        obj_no = res['project_no']
+        obj_no = vals.get('project_no')
         proj_ob = self.env['project.site'].search([('id', '=', obj_no)])
         if proj_ob:
             prod_obj = res['id']
