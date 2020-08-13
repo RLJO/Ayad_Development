@@ -7,3 +7,5 @@ class SalesOrderInherit(models.Model):
     ref_no = fields.Many2one('res.partner',string='Reference No:')
 
 
+
+

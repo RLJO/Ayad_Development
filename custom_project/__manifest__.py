@@ -22,7 +22,7 @@
         'views/email_notify.xml',
 
         'views/sales_order_view_inherit.xml',
-        #'views/res_partner_view.xml',
+        # 'views/res_partner_view.xml',
 
     ],
     'demo': [
