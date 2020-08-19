@@ -4,13 +4,12 @@ class ProjectSite(models.Model):
 
     _name = 'project.site'
 
-    name = fields.Char('Name')
+    name = fields.Char('Project Name:')
     project_type = fields.Selection([('under_const','Under Construction'),('developed','Developed')],string='Type:')
-    status = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')])
+    status = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Completion Status')
     payment_terms = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Payment Terms')
     part = fields.Many2many('project.part', string='Part')
     project_ids = fields.One2many('project.details.line','project_ids',string='Project No:')
-
 # A function to change the payment_terms by selecting status field.
 
     @api.onchange('status')
@@ -26,7 +25,7 @@ class ProjectDetailsLine(models.Model):
     _name = 'project.details.line'
 
     project_ids = fields.Many2one('project.site',string='Project ID:',ondelete='cascade')
-    product_id = fields.Many2one('product.template',string='Product ID:')
+    product_id = fields.Many2one('project.product',string='Product ID:')
     ref_no = fields.Char('Reference No:',store=True)
     status = fields.Selection([('sold', 'Sold'), ('unsold', 'Unsold')],string='Status:')
 

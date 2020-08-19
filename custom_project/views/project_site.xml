@@ -59,7 +59,7 @@
 
 
         <record id="project_site_action" model="ir.actions.act_window">
-            <field name="name">Project Site</field>
+            <field name="name">Projects</field>
             <field name="res_model">project.site</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
