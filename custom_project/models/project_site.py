@@ -10,6 +10,8 @@ class ProjectSite(models.Model):
     payment_terms = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Payment Terms')
     part = fields.Many2many('project.part', string='Part')
     project_ids = fields.One2many('project.details.line','project_ids',string='Project No:')
+
+
 # A function to change the payment_terms by selecting status field.
 
     @api.onchange('status')
@@ -17,6 +19,11 @@ class ProjectSite(models.Model):
         for rec in self:
             if rec.status:
                 rec.payment_terms = rec.status
+
+    # @api.onchange('name')
+    # def status_apartment(self):
+    #     for rec in self:
+    #         return {'domain': {'project.site.name': [('project_no', '=', rec.project.apartment.name.id)]}}
 
 
 

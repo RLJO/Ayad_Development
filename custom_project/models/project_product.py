@@ -18,6 +18,7 @@ class ProjectProduct(models.Model):
     carpet_area_no = fields.Integer('Interior Area:')
     terrace_area_no = fields.Integer('Exterior Area:')
 
+
     @api.model
     @api.depends('proj_price','carpet_area_no','terrace_area_no')
     def compute_price(self):
