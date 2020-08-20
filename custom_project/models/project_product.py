@@ -1,39 +1,41 @@
 from odoo import models, fields, api
 
-class InventoryFields(models.Model):
+class ProjectProduct(models.Model):
 
-    _inherit = 'product.template'
+    _name = 'project.product'
 
+    name = fields.Char('Apartment Number:')
     project_no = fields.Many2one('project.site',string='Project:',ondelete='cascade')
     ref_no = fields.Char('Reference No:', compute='refer_no',store=True)
     part = fields.Selection([('o','Start'),('b','stop')],string='Part:')
-    building_no = fields.Integer('Building No:')
+    building_no = fields.Char('Building No:')
     floor_no = fields.Integer('Floor No:')
-    type_id = fields.Selection([('o','Under Construction'),('b','Developed')],string='Type:')
-
+    type_id = fields.Selection([('o','Under Construction'),('b','Developed')],string='Apartment Type:')
+    land_title = fields.Char('Land Title:')
     proj_price = fields.Float("Price:")
-    status = fields.Selection([('s','Sold'),('u','Unsold')],string='Status:')
-
-    price = fields.Float("Price:")
+    total_price = fields.Float('Total Price:',compute='compute_price')
     status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status:')
+    carpet_area_no = fields.Integer('Interior Area:')
+    terrace_area_no = fields.Integer('Exterior Area:')
 
-    surface = fields.Char('Surface:')
-    built_up_no = fields.Integer('Living Area:')
-    carpet_area_no = fields.Integer('Carpet Area:')
-    terrace_area_no = fields.Integer('Terraces Area:')
 
-# Linking projects One2Many model with Inventory model.
+    @api.model
+    @api.depends('proj_price','carpet_area_no','terrace_area_no')
+    def compute_price(self):
+        for record in self:
+            record['total_price'] = (record.carpet_area_no + record.terrace_area_no)*record.proj_price
 
     @api.model
     def create(self, vals):
-        res = super(InventoryFields,self).create(vals)
+        res = super(ProjectProduct, self).create(vals)
         obj_no = vals.get('project_no')
         proj_ob = self.env['project.site'].search([('id', '=', obj_no)])
         if proj_ob:
             prod_obj = res['id']
             prod_ref = res['ref_no']
             prod_status = res['status']
-            project_line_ids = self.env['project.details.line'].create({'product_id':prod_obj,'ref_no':prod_ref,'status':prod_status})
+            project_line_ids = self.env['project.details.line'].create(
+                {'product_id': prod_obj, 'ref_no': prod_ref, 'status': prod_status})
             print(project_line_ids)
 
             proj_ob.write({'project_ids': [(4, project_line_ids.id)]})
@@ -41,7 +43,7 @@ class InventoryFields(models.Model):
 
     @api.multi
     def write(self, vals):
-        res = super(InventoryFields, self).write(vals)
+        res = super(ProjectProduct, self).write(vals)
         proj_no = vals.get('project_no')
         proj_obj = self.env['project.site'].search([('id', '=', proj_no)])
         project_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
@@ -50,18 +52,16 @@ class InventoryFields(models.Model):
             if project_line_obj.project_ids != proj_no:
                 project_line_obj.update({'project_ids': proj_no, 'ref_no': self.ref_no, 'status': self.status})
         else:
-             project_line_obj.unlink()
+            project_line_obj.unlink()
         return res
 
     @api.multi
     def unlink(self):
         proj_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
         proj_line_obj.unlink()
-        return super(InventoryFields, self).unlink()
+        return super(ProjectProduct, self).unlink()
 
-
-
-    # A function to generate reference number based on project no. and product no.
+        # A function to generate reference number based on project no. and product no.
 
     @api.multi
     @api.depends('project_no')
@@ -86,8 +86,7 @@ class InventoryFields(models.Model):
                         numbers.append('_')
                         numbers.append(str(int(word1)).zfill(2))
 
-
-# A function used to remove sublist within a list .
+            # A function used to remove sublist within a list .
 
         output = []
         def removenestinglist(ref):
@@ -97,10 +96,11 @@ class InventoryFields(models.Model):
                 else:
                     output.append(i)
                     print('The original list: ', ref)
+
         removenestinglist(ref)
         print('The list after removing nesting: ', output)
 
-# Converting List into a string.
+         # Converting List into a string.
 
         listToStr = ' '.join([str(elem) for elem in output])
         print(listToStr)

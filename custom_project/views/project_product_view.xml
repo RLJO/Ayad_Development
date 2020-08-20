@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="project_site_menu" name="Project Details"/>
+
+        <record id="view_project_filter" model="ir.ui.view">
+            <field name="name">view.project.filter</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <search string="Search Move">
+
+                    <field name="name"/>
+                    <field name="project_no"/>
+                    <field name="ref_no"/>
+<!--                    <filter string="Project" name="project_no" domain="[('project_no', '=', 'True')]"/>-->
+
+<!--                    <group expand="1" string="Group By">-->
+<!--                        <filter string="Project" name="project" domain="[]" context="{'group_by': 'project_no'}"/>-->
+
+<!--                    </group>-->
+                </search>
+            </field>
+        </record>
+
+        <record id="project_product_form" model="ir.ui.view">
+            <field name="name">project.product.form</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <form string="Site Status">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="carpet_area_no"/>
+                        <field name="project_no"/>
+                        <field name="terrace_area_no"/>
+                        <field name="ref_no"/>
+                        <label for="proj_price"/>
+                            <div class="o_row">
+                                <field name="proj_price"/><span>per square meter</span>
+                            </div>
+                        <field name="type_id"/>
+                        <field name="total_price"/>
+
+                    </group>
+
+                    <group col="4">
+                        <field name="status"/>
+                        <field name="part"/>
+                        <field name="floor_no"/>
+                        <field name="land_title"/>
+                        <field name="building_no"/>
+
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_product_tree" model="ir.ui.view">
+            <field name="name">project.product.tree</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <tree string="Apartment Details">
+                        <field name="name"/>
+                        <field name="project_no"/>
+                        <field name="ref_no"/>
+                        <field name="part"/>
+                        <field name="building_no"/>
+                        <field name="floor_no"/>
+                        <field name="type_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_product_action" model="ir.actions.act_window">
+            <field name="name">Apartments</field>
+            <field name="res_model">project.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                        'search_default_project_no': [active_id],
+                        'default_project_no': active_id,
+                        }
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    test
+                </p><p>
+                    Description goes Here.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="project_apartment_action" model="ir.actions.act_window">
+            <field name="name">Apartments</field>
+            <field name="res_model">project.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    test
+                </p><p>
+                    Description goes Here.
+                </p>
+            </field>
+        </record>
+
+            <menuitem id="project_status_main_menu" name="Apartment Details"
+               action="project_apartment_action"
+                parent="project_site_menu"/>
+
+    </data>
+</odoo>
