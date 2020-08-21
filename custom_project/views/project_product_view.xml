@@ -9,16 +9,9 @@
             <field name="model">project.product</field>
             <field name="arch" type="xml">
                 <search string="Search Move">
-
                     <field name="name"/>
                     <field name="project_no"/>
                     <field name="ref_no"/>
-<!--                    <filter string="Project" name="project_no" domain="[('project_no', '=', 'True')]"/>-->
-
-<!--                    <group expand="1" string="Group By">-->
-<!--                        <filter string="Project" name="project" domain="[]" context="{'group_by': 'project_no'}"/>-->
-
-<!--                    </group>-->
                 </search>
             </field>
         </record>
@@ -49,7 +42,6 @@
                         <field name="floor_no"/>
                         <field name="land_title"/>
                         <field name="building_no"/>
-
                     </group>
                 </form>
             </field>
@@ -61,12 +53,15 @@
             <field name="arch" type="xml">
                 <tree string="Apartment Details">
                         <field name="name"/>
-                        <field name="project_no"/>
-                        <field name="ref_no"/>
                         <field name="part"/>
                         <field name="building_no"/>
                         <field name="floor_no"/>
                         <field name="type_id"/>
+                        <field name="carpet_area_no"/>
+                        <field name="terrace_area_no"/>
+                        <field name="proj_price"/>
+                        <field name="total_price"/>
+                        <field name="status"/>
                 </tree>
             </field>
         </record>
@@ -76,11 +71,6 @@
             <field name="res_model">project.product</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{
-                        'search_default_project_no': [active_id],
-                        'default_project_no': active_id,
-                        }
-            </field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     test
@@ -104,6 +94,7 @@
                 </p>
             </field>
         </record>
+
 
             <menuitem id="project_status_main_menu" name="Apartment Details"
                action="project_apartment_action"

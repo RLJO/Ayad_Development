@@ -13,12 +13,13 @@
     'depends' : ['base','stock','sale'],
     'data': [
         'security/ir.model.access.csv',
-        'views/project_site.xml',
-        'views/project_part.xml',
-        'views/project_status.xml',
-        'views/project_type.xml',
-        # 'views/inventory_inherit_view.xml',
         'views/project_product_view.xml',
+        'views/project_site.xml',
+        # 'views/project_part.xml',
+        # 'views/project_status.xml',
+        # 'views/project_type.xml',
+        # 'views/inventory_inherit_view.xml',
+        # 'views/project_product_view.xml',
         'views/email_notify.xml',
         'views/contacts_contacts_view.xml',
 
