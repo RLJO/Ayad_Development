@@ -96,9 +96,10 @@
         </record>
 
 
-            <menuitem id="project_status_main_menu" name="Apartment Details"
-               action="project_apartment_action"
-                parent="project_site_menu"/>
+        <menuitem id="project_status_main_menu" name="Apartment Details"
+            action="project_apartment_action"
+            parent="project_site_menu"
+            groups="base.group_no_one" />
 
     </data>
 </odoo>
