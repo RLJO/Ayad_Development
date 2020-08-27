@@ -30,13 +30,13 @@
                         <field name="project_no"/>
                         <field name="terrace_area_no"/>
                         <field name="ref_no"/>
+                        <field name="surface_area"/>
                         <label for="proj_price"/>
                             <div class="o_row">
                                 <field name="proj_price"/><span>per square meter</span>
                             </div>
                         <field name="type_id"/>
                         <field name="total_price"/>
-
                     </group>
 
                     <group col="4">
@@ -62,6 +62,7 @@
                         <field name="type_id"/>
                         <field name="carpet_area_no"/>
                         <field name="terrace_area_no"/>
+                        <field name="surface_area"/>
                         <field name="proj_price"/>
                         <field name="total_price"/>
                         <field name="status"/>

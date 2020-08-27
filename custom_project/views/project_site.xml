@@ -46,7 +46,7 @@
             <field name="name">project.site.tree</field>
             <field name="model">project.site</field>
             <field name="arch" type="xml">
-                <tree string="Project Site">
+                <tree string="Project Site" editable="bottom">
                     <field name="name"/>
                     <field name="status"/>
                     <field name="project_type"/>

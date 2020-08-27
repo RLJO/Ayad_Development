@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+from datetime import datetime
+
 
 class ContactsContacts(models.Model):
 
@@ -8,6 +10,7 @@ class ContactsContacts(models.Model):
     project_no = fields.Many2one('project.site', string='Project:')
     apart_no = fields.Many2many('project.product', string='Apartment')
     interest_client = fields.Text('Interested:')
+    date_time = fields.Datetime('Date & Time:', default=lambda self: fields.Datetime.now())
 
     @api.onchange('project_no')
     def status_project(self):

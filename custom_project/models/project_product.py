@@ -17,6 +17,15 @@ class ProjectProduct(models.Model):
     status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status')
     carpet_area_no = fields.Integer('Interior Area')
     terrace_area_no = fields.Integer('Exterior Area')
+    surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
+
+    @api.model
+    @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
+    def compute_area(self):
+        for record in self:
+            record['surface_area'] = record.carpet_area_no + record.terrace_area_no
+
+
 
     @api.model
     @api.depends('proj_price','carpet_area_no','terrace_area_no')
@@ -62,46 +71,46 @@ class ProjectProduct(models.Model):
 
         # A function to generate reference number based on project no. and product no.
 
-    # @api.multi
-    # @api.depends('project_no')
-    # def refer_no(self):
-    #     ref = []
-    #     numbers = []
-    #     for rec in self:
-    #         if rec.project_no:
-    #             var = rec.project_no.name
-    #             for word in var.split(' '):
-    #                 if word.isdigit():
-    #                     numbers.append(str(int(word)).zfill(2))
-    #                     break
-    #                 ref.append(word[0:1])
-    #             ref.append('_')
-    #             ref.append(numbers)
-    #     for rec in self:
-    #         if rec.name:
-    #             var1 = rec.name
-    #             for word1 in var1.split(' '):
-    #                 if word1.isdigit():
-    #                     numbers.append('_')
-    #                     numbers.append(str(int(word1)).zfill(2))
-    #
-    #         # A function used to remove sublist within a list .
-    #
-    #     output = []
-    #     def removenestinglist(ref):
-    #         for i in ref:
-    #             if type(i) == list:
-    #                 removenestinglist(i)
-    #             else:
-    #                 output.append(i)
-    #                 print('The original list: ', ref)
-    #
-    #     removenestinglist(ref)
-    #     print('The list after removing nesting: ', output)
-    #
-    #      # Converting List into a string.
-    #
-    #     listToStr = ' '.join([str(elem) for elem in output])
-    #     print(listToStr)
-    #     for rec in self:
-    #         rec.ref_no = listToStr
+    @api.multi
+    @api.depends('project_no')
+    def refer_no(self):
+        ref = []
+        numbers = []
+        for rec in self:
+            if rec.project_no:
+                var = rec.project_no.name
+                for word in var.split(' '):
+                    if word.isdigit():
+                        numbers.append(str(int(word)).zfill(2))
+                        break
+                    ref.append(word[0:1])
+                ref.append('_')
+                ref.append(numbers)
+        for rec in self:
+            if rec.name:
+                var1 = rec.name
+                # for word1 in var1.split(' '):
+                #     if word1.isdigit():
+                numbers.append('_')
+                numbers.append(str(int(var1)).zfill(2))
+
+            # A function used to remove sublist within a list .
+
+        output = []
+        def removenestinglist(ref):
+            for i in ref:
+                if type(i) == list:
+                    removenestinglist(i)
+                else:
+                    output.append(i)
+                    print('The original list: ', ref)
+
+        removenestinglist(ref)
+        print('The list after removing nesting: ', output)
+
+         # Converting List into a string.
+
+        listToStr = ' '.join([str(elem) for elem in output])
+        print(listToStr)
+        for rec in self:
+            rec.ref_no = listToStr
