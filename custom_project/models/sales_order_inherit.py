@@ -13,11 +13,11 @@ class SalesOrderLineInherit(models.Model):
     project_id = fields.Many2one('project.site', string='Project')
     apart_id = fields.Many2one('project.product', string='Apartments')
 
-    # @api.multi
-    # def _prepare_invoice_line(self, qty):
-    #     res = super(SalesOrderLineInherit, self)._prepare_invoice_line(qty)
-    #     res.update({'project_id': self.project_id, 'apart_id': self.apart_id})
-    #     return res
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        res = super(SalesOrderLineInherit, self)._prepare_invoice_line(qty)
+        res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
+        return res
 
 
 

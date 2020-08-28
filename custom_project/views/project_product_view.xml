@@ -12,6 +12,17 @@
                     <field name="name"/>
                     <field name="project_no"/>
                     <field name="ref_no"/>
+                    <field name="carpet_area_no"/>
+                    <field name="terrace_area_no"/>
+                    <field name="surface_area"/>
+                    <field name="proj_price"/>
+                    <field name="type_id"/>
+                    <field name="total_price"/>
+                    <field name="status"/>
+                    <field name="part"/>
+                    <field name="floor_no"/>
+                    <field name="land_title"/>
+
                     <group expand="1" string="Group By">
 
                     </group>
@@ -32,7 +43,7 @@
                         <field name="ref_no"/>
                         <field name="surface_area"/>
                         <label for="proj_price"/>
-                            <div class="o_row">
+                            <div class="o_row" groups="custom_project.group_project_manager">
                                 <field name="proj_price"/><span>per square meter</span>
                             </div>
                         <field name="type_id"/>
@@ -63,7 +74,7 @@
                         <field name="carpet_area_no"/>
                         <field name="terrace_area_no"/>
                         <field name="surface_area"/>
-                        <field name="proj_price"/>
+                        <field name="proj_price" groups="custom_project.group_project_manager"/>
                         <field name="total_price"/>
                         <field name="status"/>
                 </tree>

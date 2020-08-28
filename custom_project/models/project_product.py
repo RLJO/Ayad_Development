@@ -19,6 +19,10 @@ class ProjectProduct(models.Model):
     terrace_area_no = fields.Integer('Exterior Area')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
 
+    _sql_constraints = [
+        ('unique_import_id', 'unique (name)', "Apartment already exists !"),
+    ]
+
     @api.model
     @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
     def compute_area(self):

@@ -12,8 +12,9 @@
     'images' : [],
     'depends' : ['base','stock','sale'],
     'data': [
-        'data/product_data.xml',
+        'security/security.xml',
         'security/ir.model.access.csv',
+        'data/product_data.xml',
         'views/project_product_view.xml',
         'views/project_site.xml',
         # 'views/project_part.xml',
