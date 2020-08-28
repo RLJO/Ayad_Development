@@ -14,6 +14,7 @@
     'data': [
         'data/product_data.xml',
         'security/ir.model.access.csv',
+        'views/apartments_import.xml',
         'views/project_product_view.xml',
         'views/project_site.xml',
         # 'views/project_part.xml',
