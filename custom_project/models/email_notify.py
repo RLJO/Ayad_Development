@@ -17,6 +17,7 @@ class EmailNotify(models.Model):
     today = fields.Datetime(default=lambda self: fields.datetime.now())
     has_activity = fields.Boolean()
 
+    @api.multi
     def task_reminder_cron(self):
         mail = self.env['mail.mail']
         users = self.env['res.users'].search([])
