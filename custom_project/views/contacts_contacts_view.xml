@@ -13,6 +13,7 @@
                     <field name="project_no"/>
                     <field name="apart_no" widget="many2many_tags"/>
                     <field name="interest_client"/>
+                    <field name="date_time"/>
                 </tree>
             </field>
         </record>

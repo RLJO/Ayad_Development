@@ -6,8 +6,9 @@ access_project_type,access.project.type,custom_project.model_project_type,base.g
 access_project_product,access.project.product,custom_project.model_project_product,base.group_user,1,1,1,1
 access_contacts_contacts,access.contacts.contacts,custom_project.model_contacts_contacts,base.group_user,1,1,1,1
 access_email_notify,access.email.notify,custom_project.model_email_notify,base.group_user,1,1,1,1
-
 access_project_details_line,access.project.details.line,custom_project.model_project_details_line,base.group_user,1,1,1,1
+access_project_product_manager,access.project.product.manager,custom_project.model_project_product,custom_project.group_project_manager,1,1,1,1
+access_project_product_user,access.project.product.user,custom_project.model_project_product,custom_project.group_project_user,1,,1,
 
 
 

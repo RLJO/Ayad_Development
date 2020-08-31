@@ -4,19 +4,31 @@ class ProjectProduct(models.Model):
 
     _name = 'project.product'
 
-    name = fields.Char('Apartment Number:')
+    name = fields.Char('Apartment ID')
     project_no = fields.Many2one('project.site',string='Project:',ondelete='cascade')
-    ref_no = fields.Char('Reference No:', compute='refer_no',store=True)
-    part = fields.Selection([('o','Start'),('b','stop')],string='Part:')
-    building_no = fields.Char('Building No:')
-    floor_no = fields.Integer('Floor No:')
-    type_id = fields.Selection([('o','Under Construction'),('b','Developed')],string='Apartment Type:')
-    land_title = fields.Char('Land Title:')
-    proj_price = fields.Float("Price:")
-    total_price = fields.Float('Total Price:',compute='compute_price')
-    status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status:')
-    carpet_area_no = fields.Integer('Interior Area:')
-    terrace_area_no = fields.Integer('Exterior Area:')
+    ref_no = fields.Char('Reference No', compute='refer_no',store=True)
+    part = fields.Char('Part')
+    building_no = fields.Integer('Building No')
+    floor_no = fields.Integer('Floor No')
+    type_id = fields.Selection([('o','F1'),('b','F2'),('c','F3'),('d','F4')],string='Apartment Type')
+    land_title = fields.Char('Land Title')
+    proj_price = fields.Float("Unit Price")
+    total_price = fields.Float('Total Price',compute='compute_price')
+    status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status')
+    carpet_area_no = fields.Integer('Interior Area')
+    terrace_area_no = fields.Integer('Exterior Area')
+    surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
+
+    _sql_constraints = [
+        ('unique_import_id', 'unique (name)', "Apartment already exists !"),
+    ]
+
+    @api.model
+    @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
+    def compute_area(self):
+        for record in self:
+            record['surface_area'] = record.carpet_area_no + record.terrace_area_no
+
 
 
     @api.model
@@ -81,10 +93,10 @@ class ProjectProduct(models.Model):
         for rec in self:
             if rec.name:
                 var1 = rec.name
-                for word1 in var1.split(' '):
-                    if word1.isdigit():
-                        numbers.append('_')
-                        numbers.append(str(int(word1)).zfill(2))
+                # for word1 in var1.split(' '):
+                #     if word1.isdigit():
+                numbers.append('_')
+                numbers.append(str(int(var1)).zfill(2))
 
             # A function used to remove sublist within a list .
 

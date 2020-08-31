@@ -3,7 +3,6 @@
     <data>
         <menuitem id="project_site_menu" name="Project Details"/>
 
-
 <!--        <record id="project_site_form" model="ir.ui.view">-->
 <!--            <field name="name">project.site.form</field>-->
 <!--            <field name="model">project.site</field>-->
@@ -47,26 +46,24 @@
             <field name="name">project.site.tree</field>
             <field name="model">project.site</field>
             <field name="arch" type="xml">
-                <tree string="Project Site">
+                <tree string="Project Site" editable="bottom">
                     <field name="name"/>
                     <field name="status"/>
                     <field name="project_type"/>
                     <field name="payment_terms"/>
-
                 </tree>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_site_kanban">
+        <record model="ir.ui.view" id="project_site_kanban">
             <field name="name">project.site.kanban</field>
             <field name="model">project.site</field>
             <field name="arch" type="xml">
-                <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
+                <kanban>
                     <field name="name"/>
                     <field name="status"/>
                     <field name="project_type"/>
                     <field name="payment_terms"/>
-
                     <templates>
                         <t t-name="kanban-box">
                                 <div>
@@ -80,26 +77,22 @@
             </field>
         </record>
 
-
-
-
         <record id="project_site_action" model="ir.actions.act_window">
             <field name="name">Projects</field>
             <field name="res_model">project.site</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">kanban,tree</field>
             <field name="help" type="html">
                 <h1 class="oe_view_nocontent_create">
                     No Projects Created Yet.
                 </h1><h1>
                 Create New Projects to see list of Projects here...
-            </h1>
+                </h1>
             </field>
         </record>
 
         <menuitem id="project_site_main_menu" name="Project Site Details"
                   sequence="1" action="custom_project.project_site_action"
                   parent="project_site_menu"/>
-
     </data>
 </odoo>

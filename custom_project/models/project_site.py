@@ -20,12 +20,6 @@ class ProjectSite(models.Model):
             if rec.status:
                 rec.payment_terms = rec.status
 
-    # @api.onchange('name')
-    # def status_apartment(self):
-    #     for rec in self:
-    #         return {'domain': {'project.site.name': [('project_no', '=', rec.project.apartment.name.id)]}}
-
-
 
 class ProjectDetailsLine(models.Model):
 
