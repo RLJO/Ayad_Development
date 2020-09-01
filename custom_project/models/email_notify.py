@@ -14,13 +14,14 @@ SMTP_TIMEOUT = 60
 class EmailNotify(models.Model):
     _name = 'email.notify'
 
-    today = fields.Datetime(default=lambda self: fields.datetime.now())
-    has_activity = fields.Boolean()
 
+    @api.multi
     def task_reminder_cron(self):
         mail = self.env['mail.mail']
         users = self.env['res.users'].search([])
         for user in users:
+            values={}
+            has_activity = False
             tz = user.tz or pytz.utc
             timezone = pytz.timezone(tz)
             now = datetime.datetime.now(timezone)
@@ -39,15 +40,15 @@ class EmailNotify(models.Model):
             for activity in activity_rec:
                 # date_deadline = activity.date_deadline.strftime('%m/%d/%Y')
                 if activity.activity_category=='meeting' and user.partner_id.id in activity.calendar_event_id.partner_ids.ids:
-                    self.has_activity = True
+                    has_activity = True
                     activity_summary = activity_summary + ''' <p><b>* ''' + str(activity.activity_type_id.name) + ''' </b>: ''' + str(activity.summary) + '''  On <b>''' + activity.calendar_event_id.display_time + '''</b></p></br>'''
 
                 elif activity.activity_category != 'meeting' and activity.user_id.id == user.id:
-                    self.has_activity = True
+                    has_activity = True
                     activity_summary = activity_summary +  ''' <p><b>* '''+str(activity.activity_type_id.name)+ ''' </b>: ''' + str(activity.summary)+'''</p></br>'''
 
 
-            if self.has_activity == True:
+            if has_activity == True:
                 values = {
                     'subject': "Activities TO-DO",
                     'body_html': activity_summary,
