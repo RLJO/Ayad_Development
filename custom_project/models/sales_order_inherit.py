@@ -19,8 +19,6 @@ class SalesOrderLineInherit(models.Model):
         res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
         return res
 
-
-
     @api.onchange('project_id')
     def status_apart(self):
         for rec in self:
