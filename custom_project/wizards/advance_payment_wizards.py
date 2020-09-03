@@ -15,9 +15,10 @@ class SalesInherit(models.TransientModel):
             if rec1.order_line:
                 # product_obj = self.env['product.template'].search([('name','=', rec1.order_line.product_id.name)])
                 for rec2 in rec1.order_line:
-                    product_obj = self.env['product.template'].search([('name','=', rec2.product_id.name)])
-                    if product_obj.project_no.project_type == 'under_const':
-                        res['advance_payment_method'] = 'percentage'
+                    if rec2.project_id:
+                        # product_obj = self.env['project.product'].search([('name','=', rec2.product_id.name)])
+                            if rec2.project_id.project_type == 'under_const':
+                                res['advance_payment_method'] = 'percentage'
         return res
 
     @api.onchange('advance_payment_method')
@@ -27,14 +28,15 @@ class SalesInherit(models.TransientModel):
             for order in sale_order_ids:
                 if order.order_line:
                     for line in order.order_line:
-                        product_obj = self.env['product.template'].search([('name', '=', line.product_id.name)])
-                        if self.advance_payment_method == 'percentage' and product_obj.project_no.payment_terms == 'partial':
-                            return {'value': {'amount': 10.00}}
-                        if self.advance_payment_method == 'percentage' and product_obj.project_no.payment_terms == 'half':
-                            return {'value': {'amount': 50.00}}
-                        elif self.advance_payment_method == 'percentage':
-                            return {'value': {'amount': 0}}
-                        return {}
+                        if line.project_id:
+                        # product_obj = self.env['project.product'].search([('name', '=', line.product_id.name)])
+                            if self.advance_payment_method == 'percentage' and line.project_id.payment_terms == 'partial':
+                                return {'value': {'amount': 10.00}}
+                            if self.advance_payment_method == 'percentage' and line.project_id.payment_terms == 'half':
+                                return {'value': {'amount': 50.00}}
+                            elif self.advance_payment_method == 'percentage':
+                                return {'value': {'amount': 0}}
+                            return {}
         else:
             if self.advance_payment_method == 'percentage':
                 return {'value': {'amount': 0}}

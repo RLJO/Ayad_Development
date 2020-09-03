@@ -8,7 +8,7 @@ class CrmInherit(models.Model):
 
     select_project = fields.Many2one('project.site', string='Projects')
 
-    select_site = fields.Many2one('product.template', string= 'Site')
+    select_site = fields.Many2one('project.product', string= 'Site')
 
     interest = fields.Char('Interest')
 

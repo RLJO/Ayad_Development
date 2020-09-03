@@ -73,7 +73,7 @@ class InventoryFields(models.Model):
                 var = rec.project_no.name
                 for word in var.split(' '):
                     if word.isdigit():
-                        numbers.append(int(word))
+                        numbers.append(str(int(word)).zfill(2))
                         break
                     ref.append(word[0:1])
                 ref.append('_')
@@ -84,7 +84,7 @@ class InventoryFields(models.Model):
                 for word1 in var1.split(' '):
                     if word1.isdigit():
                         numbers.append('_')
-                        numbers.append(int(word1))
+                        numbers.append(str(int(word1)).zfill(2))
 
 
 # A function used to remove sublist within a list .
