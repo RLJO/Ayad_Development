@@ -42,24 +42,29 @@
                         <field name="ref_no"/>
                         <field name="surface_area"/>
                     </group>
-                        <group col="4">
-                            <div class="o_row" groups="custom_project.group_project_manager">
-                                <label for="proj_price"/>
-                                <field name="proj_price"/><span>per square meter</span>
-                            </div>
-                        </group>
                         <group>
-                            <field name="total_price"/>
+                        <div class="o_row" groups="custom_project.group_project_manager">
+<!--                                <label for="proj_price"/>-->
+                            <group col="4">
+                                <field name="proj_price"/><span>/square meter</span>
+                            </group>
+                        </div>
+                            <group>
+                                <field name="total_price"/>
+                            </group>
+
+                        </group>
+                        <group col="4" row="2">
+                            <field name="type_id"/>
+                            <field name="status"/>
+                            <field name="part"/>
+                            <field name="no_of_rooms"/>
                         </group>
                         <group col="4">
-                        <field name="type_id"/>
-                        <field name="status"/>
-                        <field name="part"/>
-                        </group>
-                        <group col="4">
-                        <field name="floor_no"/>
-                        <field name="land_title"/>
-                        <field name="building_no"/>
+                            <field name="floor_no"/>
+                            <field name="land_title"/>
+                            <field name="building_no"/>
+                            <field name = "document"/>
                         </group>
                     </sheet>
                 <div class="oe_chatter">
@@ -81,12 +86,12 @@
                         <field name="building_no"/>
                         <field name="floor_no"/>
                         <field name="type_id"/>
+                        <field name="no_of_rooms"/>
                         <field name="carpet_area_no"/>
                         <field name="terrace_area_no"/>
                         <field name="surface_area"/>
                         <field name="proj_price" groups="custom_project.group_project_manager"/>
                         <field name="total_price"/>
-                        <field name="status"/>
                 </tree>
             </field>
         </record>
@@ -99,7 +104,7 @@
             <field name="context">{'search_default_project_no':[active_id]}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    test
+                    Create New Apartment.
                 </p><p>
                     Description goes Here.
                 </p>
@@ -114,7 +119,7 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    test
+                    Create New Apartment.
                 </p><p>
                     Description goes Here.
                 </p>

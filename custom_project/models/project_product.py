@@ -2,7 +2,6 @@ from odoo import models, fields, api
 
 class ProjectProduct(models.Model):
 
-
     _name = 'project.product'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
@@ -12,7 +11,7 @@ class ProjectProduct(models.Model):
     part = fields.Char('Part')
     building_no = fields.Integer('Building No')
     floor_no = fields.Integer('Floor No')
-    type_id = fields.Selection([('o','F1'),('b','F2'),('c','F3'),('d','F4')],string='Apartment Type')
+    type_id = fields.Char('Apartment Type')
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
     total_price = fields.Float('Total Price',compute='compute_price')
@@ -20,10 +19,13 @@ class ProjectProduct(models.Model):
     carpet_area_no = fields.Integer('Interior Area')
     terrace_area_no = fields.Integer('Exterior Area')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
+    document = fields.Binary(string="Document")
+    no_of_rooms = fields.Integer('Total Rooms')
+    # document_name = fields.Char(string="File Name")
 
-    # _sql_constraints = [
-    #     ('unique_import_id', 'unique (name)', "Apartment already exists !"),
-    # ]
+    _sql_constraints = [
+        ('unique_import_id', 'unique (name,ref_no)', "Apartment already exists !"),
+    ]
 
     @api.model
     @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')

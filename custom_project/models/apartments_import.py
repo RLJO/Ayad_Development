@@ -53,12 +53,12 @@ class ImportPartners(models.TransientModel):
                     part = value[2].strip() or False
                     building = value[3].strip() or False
                     floor = value[4].strip() or False
-                    type = value[5].strip() or False
-                    int_area = value[6].strip() or False
-                    ext_area = value[7].strip() or False
-                    base_price = value[8].strip() or False
-                    project = value[9].strip() or False
-
+                    type_no = value[5].strip() or False
+                    rooms_no = value[6].strip() or False
+                    int_area = value[7].strip() or False
+                    ext_area = value[8].strip() or False
+                    base_price = value[9].strip() or False
+                    project = value[10].strip() or False
 
 
                     project_obj = self.env['project.site'].search([('name', '=', project)])
@@ -72,11 +72,12 @@ class ImportPartners(models.TransientModel):
                             'part': part,
                             'building_no' : building,
                             'floor_no' : floor,
-                            # 'type_id' : floor,
+                            'type_id' : type_no,
+                            'no_of_rooms' : rooms_no,
                             'carpet_area_no' : int_area,
                             'terrace_area_no' : ext_area,
                             'proj_price' : base_price,
-                            'proj_no' : project_obj.id,
+                            'project_no' : project_obj.id,
                             }
 
                         # if account_type.id == 1 or account_type.id == 2:
