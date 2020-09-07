@@ -51,6 +51,7 @@
                     <field name="status"/>
                     <field name="project_type"/>
                     <field name="payment_terms"/>
+                    <field name="res_users"/>
                 </tree>
             </field>
         </record>

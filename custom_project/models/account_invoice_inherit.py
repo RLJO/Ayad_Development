@@ -7,10 +7,12 @@ class AccountInvoiceLineInherit(models.Model):
     project_id = fields.Many2one('project.site', string='Project')
     apart_id = fields.Many2one('project.product', string='Apartments')
 
+
     @api.onchange('project_id')
     def status_apart(self):
         for rec in self:
             return {'domain': {'apart_id': [('project_no', '=', rec.project_id.id)]}}
+
 
     @api.onchange('apart_id')
     def status_change(self):

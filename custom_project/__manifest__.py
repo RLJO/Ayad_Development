@@ -15,6 +15,7 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/product_data.xml',
+        'wizards/product_price_wizards_view.xml',
         'views/apartments_import.xml',
         'views/project_product_view.xml',
         'views/project_site.xml',

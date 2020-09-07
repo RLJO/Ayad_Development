@@ -65,7 +65,9 @@ class ImportPartners(models.TransientModel):
 
                     apartment_obj = self.env['project.product'].search([('name', '=', apartment_no)])
 
-                    if not apartment_obj:
+                    if project_obj.id == apartment_obj.project_no.id:
+                        print('Apartment already Exists with Project.')
+                    elif not apartment_obj:
                         apartment_vals = {
                             'land_title': title,
                             'name': apartment_no,
@@ -79,7 +81,6 @@ class ImportPartners(models.TransientModel):
                             'proj_price' : base_price,
                             'project_no' : project_obj.id,
                             }
-
                         # if account_type.id == 1 or account_type.id == 2:
                         #     acc_vals.update({'reconcile': True})
 

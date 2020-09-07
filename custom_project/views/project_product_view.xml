@@ -33,6 +33,10 @@
             <field name="model">project.product</field>
             <field name="arch" type="xml">
                 <form string="Site Status">
+<!--                    <header>-->
+<!--                        <button name="%(custom_project.product_wizard_action)d" string="Update Unit Price" type="action"/>-->
+<!--                    </header>-->
+
                     <sheet>
                     <group col="4">
                         <field name="name"/>
@@ -42,7 +46,6 @@
                         <field name="ref_no"/>
                         <field name="surface_area"/>
                     </group>
-                        <group>
                         <div class="o_row" groups="custom_project.group_project_manager">
 <!--                                <label for="proj_price"/>-->
                             <group col="4">
@@ -52,8 +55,6 @@
                             <group>
                                 <field name="total_price"/>
                             </group>
-
-                        </group>
                         <group col="4" row="2">
                             <field name="type_id"/>
                             <field name="status"/>
@@ -66,6 +67,15 @@
                             <field name="building_no"/>
                             <field name = "document"/>
                         </group>
+                            <div class="o_row" groups="custom_project.group_project_manager">
+<!--                                <label for="proj_price"/>-->
+                            <group col="4">
+                                <field name="ext_price"/><span>/square meter</span>
+                                <field name="interior_price"/><span>/square meter</span>
+
+                            </group>
+                            </div>
+
                     </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>

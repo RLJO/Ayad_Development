@@ -21,10 +21,12 @@ class ProjectProduct(models.Model):
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
     document = fields.Binary(string="Document")
     no_of_rooms = fields.Integer('Total Rooms')
+    ext_price = fields.Integer('Exterior Unit Price')
+    interior_price = fields.Integer('Interior Unit Price')
     # document_name = fields.Char(string="File Name")
 
     _sql_constraints = [
-        ('unique_import_id', 'unique (name,ref_no)', "Apartment already exists !"),
+        ('unique_import_id', 'unique (ref_no)', "Apartment already exists !"),
     ]
 
     @api.model
@@ -41,6 +43,17 @@ class ProjectProduct(models.Model):
         for record in self:
             record['total_price'] = (record.carpet_area_no + record.terrace_area_no)*record.proj_price
 
+
+
+
+    @api.model
+    @api.depends('total_unit_price', 'ext_price', 'interior_price','carpet_area_no','terrace_area_no')
+    def compute_total_price(self):
+        for record in self:
+            record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
+
+
+
     @api.model
     def create(self, vals):
         res = super(ProjectProduct, self).create(vals)
@@ -55,7 +68,10 @@ class ProjectProduct(models.Model):
             print(project_line_ids)
 
             proj_ob.write({'project_ids': [(4, project_line_ids.id)]})
+
         return res
+
+
 
     @api.multi
     def write(self, vals):
@@ -76,6 +92,9 @@ class ProjectProduct(models.Model):
         proj_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
         proj_line_obj.unlink()
         return super(ProjectProduct, self).unlink()
+
+
+
 
         # A function to generate reference number based on project no. and product no.
 
