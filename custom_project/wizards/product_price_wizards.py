@@ -8,8 +8,8 @@ class ProductPrice(models.TransientModel):
     def _default_prod(self):
         return self.env['project.product'].browse(self._context.get('active_ids'))
 
-    building_no = fields.Integer('Building No:')
-    floor_no = fields.Integer('Floor No:')
+    building_no = fields.Text('Building No:')
+    floor_no = fields.Text('Floor No:')
     type_id = fields.Char('Apartment Type:')
     prod_price = fields.Float("Unit Price:")
     proj_id = fields.Many2one('project.site',string='Project:')
@@ -26,7 +26,6 @@ class ProductPrice(models.TransientModel):
             filter_list.append(('project_no', '=', self.proj_id.id))
         else:
             raise ValidationError(('Oops!!! Select the Project First!!'))
-
         if self.building_no:
             filter_list.append(('building_no', '=', self.building_no))
         if self.floor_no:

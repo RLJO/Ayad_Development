@@ -9,8 +9,8 @@ class ProjectProduct(models.Model):
     project_no = fields.Many2one('project.site',string='Project:',ondelete='cascade')
     ref_no = fields.Char('Reference No', compute='refer_no',store=True)
     part = fields.Char('Part')
-    building_no = fields.Integer('Building No')
-    floor_no = fields.Integer('Floor No')
+    building_no = fields.Text('Building No')
+    floor_no = fields.Text('Floor No')
     type_id = fields.Char('Apartment Type')
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
@@ -26,9 +26,9 @@ class ProjectProduct(models.Model):
 
     # document_name = fields.Char(string="File Name")
 
-    _sql_constraints = [
-        ('unique_import_id', 'unique (ref_no)', "Apartment already exists !"),
-    ]
+    # _sql_constraints = [
+    #     ('unique_import_id', 'unique (ref_no)', "Apartment already exists !"),
+    # ]
 
     @api.model
     @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
@@ -42,9 +42,10 @@ class ProjectProduct(models.Model):
     @api.depends('proj_price','carpet_area_no','terrace_area_no','ext_price','interior_price')
     def compute_price(self):
         for record in self:
-            record['total_price'] = (record.carpet_area_no + record.terrace_area_no)*record.proj_price
-        for rec in self:
-            rec['total_price'] = rec.carpet_area_no*rec.interior_price + rec.terrace_area_no*rec.ext_price
+            if record.proj_price:
+                record['total_price'] = (record.carpet_area_no + record.terrace_area_no)*record.proj_price
+            else:
+                record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
 
 
 
