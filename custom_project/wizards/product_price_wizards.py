@@ -26,6 +26,7 @@ class ProductPrice(models.TransientModel):
             filter_list.append(('project_no', '=', self.proj_id.id))
         else:
             raise ValidationError(('Oops!!! Select the Project First!!'))
+
         if self.building_no:
             filter_list.append(('building_no', '=', self.building_no))
         if self.floor_no:
@@ -39,7 +40,7 @@ class ProductPrice(models.TransientModel):
         for record in prod_obj:
             record.interior_price = self.inter_unit_price
             record.ext_price = self.ext_unit_price
-            # record.total_unit_price = self.
+
 
 
     def cancel(self):

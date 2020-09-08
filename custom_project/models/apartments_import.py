@@ -81,10 +81,23 @@ class ImportPartners(models.TransientModel):
                             'proj_price' : base_price,
                             'project_no' : project_obj.id,
                             }
+                    elif apartment_obj:
+                            apartment_vals = {
+                                'land_title': title,
+                                'name': apartment_no,
+                                'part': part,
+                                'building_no' : building,
+                                'floor_no' : floor,
+                                'type_id' : type_no,
+                                'no_of_rooms' : rooms_no,
+                                'carpet_area_no' : int_area,
+                                'terrace_area_no' : ext_area,
+                                'proj_price' : base_price,
+                                'project_no' : project_obj.id,
+                                }
                         # if account_type.id == 1 or account_type.id == 2:
                         #     acc_vals.update({'reconcile': True})
-
-                        new_apartment_id = self.env['project.product'].sudo().create(apartment_vals)
+                    new_apartment_id = self.env['project.product'].sudo().create(apartment_vals)
 
                     _logger.info('-----row number %s already exists', key)
 

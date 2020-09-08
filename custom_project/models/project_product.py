@@ -18,11 +18,12 @@ class ProjectProduct(models.Model):
     status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status')
     carpet_area_no = fields.Integer('Interior Area')
     terrace_area_no = fields.Integer('Exterior Area')
+    ext_price = fields.Integer('Exterior Unit Price')
+    interior_price = fields.Integer('Interior Unit Price')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
     document = fields.Binary(string="Document")
     no_of_rooms = fields.Integer('Total Rooms')
-    ext_price = fields.Integer('Exterior Unit Price')
-    interior_price = fields.Integer('Interior Unit Price')
+
     # document_name = fields.Char(string="File Name")
 
     _sql_constraints = [
@@ -38,19 +39,21 @@ class ProjectProduct(models.Model):
 
 
     @api.model
-    @api.depends('proj_price','carpet_area_no','terrace_area_no')
+    @api.depends('proj_price','carpet_area_no','terrace_area_no','ext_price','interior_price')
     def compute_price(self):
         for record in self:
             record['total_price'] = (record.carpet_area_no + record.terrace_area_no)*record.proj_price
+        for rec in self:
+            rec['total_price'] = rec.carpet_area_no*rec.interior_price + rec.terrace_area_no*rec.ext_price
 
 
 
 
-    @api.model
-    @api.depends('total_unit_price', 'ext_price', 'interior_price','carpet_area_no','terrace_area_no')
-    def compute_total_price(self):
-        for record in self:
-            record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
+    # @api.model
+    # @api.depends('ext_price', 'interior_price','carpet_area_no','terrace_area_no')
+    # def compute_total_price(self):
+    #     for record in self:
+    #         record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
 
 
 
