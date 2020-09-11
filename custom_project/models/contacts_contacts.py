@@ -43,9 +43,9 @@ class ContactsContacts(models.Model):
                 'email_from': formataddr((res_part_obj.name, res_part_obj.email)),
                 'subtype_id': self.env['mail.message.subtype'].search([('name', '=', 'note')]).id
             })
-        crm_obj = self.env['crm.lead'].search([('partner_id', '=', res_part_obj.id)])
+            crm_obj = self.env['crm.lead'].search([('partner_id', '=', res_part_obj.id)])
 
-        crm_message = self.env['mail.message'].create({
+            crm_message = self.env['mail.message'].create({
                 'model': 'crm.lead',
                 'res_id': int(crm_obj.id),
                 'message_type': 'email',
