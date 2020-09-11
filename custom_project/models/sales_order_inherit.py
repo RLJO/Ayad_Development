@@ -4,14 +4,15 @@ class SalesOrderInherit(models.Model):
 
     _inherit = 'sale.order'
 
-    ref_no = fields.Many2one('res.partner',string='Reference No:')
+    # ref_no = fields.Many2one('res.partner',string='Reference No:',ondelete='cascade')
+    ref_nos = fields.Integer('Reference No:')
 
 class SalesOrderLineInherit(models.Model):
 
     _inherit = 'sale.order.line'
 
-    project_id = fields.Many2one('project.site', string='Project')
-    apart_id = fields.Many2one('project.product', string='Apartments')
+    project_id = fields.Many2one('project.site', string='Project',ondelete='cascade')
+    apart_id = fields.Many2one('project.product', string='Apartments',ondelete='cascade')
 
     @api.multi
     def _prepare_invoice_line(self, qty):

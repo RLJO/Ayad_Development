@@ -26,10 +26,10 @@
         'views/account_invoice_inherit_view.xml',
         'views/email_notify.xml',
         'views/contacts_contacts_view.xml',
-        'views/sales_order_view_inherit.xml',
+        # 'views/sales_order_view_inherit.xml',
         'views/res_users.xml',
         'views/sale_order_line_inherit.xml',
-        #'views/res_partner_view.xml',
+        # 'views/res_partner_view.xml',
 
 
     ],

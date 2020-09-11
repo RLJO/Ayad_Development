@@ -9,8 +9,8 @@ class ProjectProduct(models.Model):
     project_no = fields.Many2one('project.site',string='Project:',ondelete='cascade')
     ref_no = fields.Char('Reference No', compute='refer_no',store=True)
     part = fields.Char('Part')
-    building_no = fields.Text('Building No')
-    floor_no = fields.Text('Floor No')
+    building_no = fields.Char('Building No')
+    floor_no = fields.Char('Floor No')
     type_id = fields.Char('Apartment Type')
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
@@ -29,6 +29,8 @@ class ProjectProduct(models.Model):
     # _sql_constraints = [
     #     ('unique_import_id', 'unique (ref_no)', "Apartment already exists !"),
     # ]
+
+
 
     @api.model
     @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
@@ -50,52 +52,21 @@ class ProjectProduct(models.Model):
 
 
 
-    # @api.model
-    # @api.depends('ext_price', 'interior_price','carpet_area_no','terrace_area_no')
-    # def compute_total_price(self):
-    #     for record in self:
-    #         record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
-
-
-
     @api.model
-    def create(self, vals):
-        res = super(ProjectProduct, self).create(vals)
-        obj_no = vals.get('project_no')
-        proj_ob = self.env['project.site'].search([('id', '=', obj_no)])
-        if proj_ob:
-            prod_obj = res['id']
-            prod_ref = res['ref_no']
-            prod_status = res['status']
-            project_line_ids = self.env['project.details.line'].create(
-                {'product_id': prod_obj, 'ref_no': prod_ref, 'status': prod_status})
-            print(project_line_ids)
-
-            proj_ob.write({'project_ids': [(4, project_line_ids.id)]})
-
-        return res
+    @api.depends('ext_price', 'interior_price','carpet_area_no','terrace_area_no')
+    def compute_total_price(self):
+        for record in self:
+            record['total_price'] = record.carpet_area_no*record.interior_price + record.terrace_area_no*record.ext_price
 
 
 
-    @api.multi
-    def write(self, vals):
-        res = super(ProjectProduct, self).write(vals)
-        proj_no = vals.get('project_no')
-        proj_obj = self.env['project.site'].search([('id', '=', proj_no)])
-        project_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
 
-        if proj_no:
-            if project_line_obj.project_ids != proj_no:
-                project_line_obj.update({'project_ids': proj_no, 'ref_no': self.ref_no, 'status': self.status})
-        else:
-            project_line_obj.unlink()
-        return res
 
-    @api.multi
-    def unlink(self):
-        proj_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
-        proj_line_obj.unlink()
-        return super(ProjectProduct, self).unlink()
+    # @api.multi
+    # def unlink(self):
+    #     proj_line_obj = self.env['project.details.line'].search([('product_id', '=', self.id)])
+    #     proj_line_obj.unlink()
+    #     return super(ProjectProduct, self).unlink()
 
 
 

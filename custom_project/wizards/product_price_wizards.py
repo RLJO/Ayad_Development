@@ -8,8 +8,8 @@ class ProductPrice(models.TransientModel):
     def _default_prod(self):
         return self.env['project.product'].browse(self._context.get('active_ids'))
 
-    building_no = fields.Text('Building No:')
-    floor_no = fields.Text('Floor No:')
+    building_no = fields.Char('Building No:')
+    floor_no = fields.Char('Floor No:')
     type_id = fields.Char('Apartment Type:')
     prod_price = fields.Float("Unit Price:")
     proj_id = fields.Many2one('project.site',string='Project:')
