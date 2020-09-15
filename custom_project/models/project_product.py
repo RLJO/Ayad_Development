@@ -22,7 +22,7 @@ class ProjectProduct(models.Model):
     interior_price = fields.Integer('Interior Unit Price')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
     document = fields.Binary(string="Document")
-    no_of_rooms = fields.Integer('Total Rooms')
+    # no_of_rooms = fields.Integer('Total Rooms')
 
     # document_name = fields.Char(string="File Name")
 
@@ -30,6 +30,10 @@ class ProjectProduct(models.Model):
     #     ('unique_import_id', 'unique (ref_no)', "Apartment already exists !"),
     # ]
 
+    # def _get_status_move_values(self,values):
+    #     res = super(ProjectProduct, self)._get_status_move_values(values)
+    #     res['status'] = values.get('status', False)
+    #     return res
 
 
     @api.model

@@ -1,5 +1,32 @@
 from odoo import models, fields, api
 
+class AccountInvoiceInherit(models.Model):
+
+    _inherit = 'account.invoice'
+
+    # def action_invoice_sent(self):
+    #     """ Overridden. Triggered by the 'send by mail' button.
+    #     """
+    #     rslt = super(AccountInvoiceInherit, self).action_invoice_sent()
+    #     for line in self.invoice_line_ids:
+    #         line.apart_id.status = 'sold'
+    #     # if self.l10n_ch_isr_valid:
+    #     #     rslt['context']['l10n_ch_mark_isr_as_sent'] = True
+    #
+    #     return rslt
+
+    def action_invoice_open(self):
+
+        res = super(AccountInvoiceInherit, self).action_invoice_open()
+        for line in self.invoice_line_ids:
+            line.apart_id.status = 'sold'
+            # proj_apart_obj = self.env['project.product'].search([('id', '=', self.id)])
+
+            # if line.apart_id == proj_apart_obj.name:
+            #     proj_apart_obj.name.status = self.status
+        return res
+
+
 class AccountInvoiceLineInherit(models.Model):
 
     _inherit = 'account.invoice.line'
@@ -13,6 +40,11 @@ class AccountInvoiceLineInherit(models.Model):
         for rec in self:
             return {'domain': {'apart_id': [('project_no', '=', rec.project_id.id)]}}
 
+    # @api.multi
+    # def _prepare_invoice_line(self, qty):
+    #     res = super(AccountInvoiceLineInherit, self)._prepare_invoice_line(qty)
+    #     res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
+    #     return res
 
     @api.onchange('apart_id')
     def status_change(self):

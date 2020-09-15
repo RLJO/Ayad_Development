@@ -7,11 +7,11 @@ class ContactsContacts(models.Model):
 
     _name = 'contacts.contacts'
 
-    contact_details = fields.Many2one('res.partner', string='Customer:',ondelete='cascade')
-    project_no = fields.Many2one('project.site', string='Project:',ondelete='cascade')
+    contact_details = fields.Many2one('res.partner', string='Customer',ondelete='cascade')
+    project_no = fields.Many2one('project.site', string='Project',ondelete='cascade')
     apart_no = fields.Many2many('project.product', string='Apartment',ondelete='cascade')
-    interest_client = fields.Text('Interested:')
-    date_time = fields.Datetime('Date & Time:', default=lambda self: fields.Datetime.now())
+    interest_client = fields.Text('Summary')
+    date_time = fields.Datetime('Date & Time', default=lambda self: fields.Datetime.now())
 
     @api.onchange('project_no')
     def status_project(self):
