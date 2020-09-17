@@ -46,7 +46,7 @@ class ImportPartners(models.TransientModel):
                     building = value[3].strip() or False
                     floor = value[4].strip() or False
                     type_no = value[5].strip() or False
-                    rooms_no = value[6].strip() or False
+                    status_apart = value[6].strip() or False
                     int_area = value[7].strip() or False
                     ext_area = value[8].strip() or False
                     base_price = value[9].strip() or False
@@ -67,7 +67,7 @@ class ImportPartners(models.TransientModel):
                             'building_no' : building,
                             'floor_no' : floor,
                             'type_id' : type_no,
-                            'no_of_rooms' : rooms_no,
+                            'status' : status_apart,
                             'carpet_area_no' : int_area,
                             'terrace_area_no' : ext_area,
                             'proj_price' : base_price,
@@ -81,7 +81,7 @@ class ImportPartners(models.TransientModel):
                                 'building_no' : building,
                                 'floor_no' : floor,
                                 'type_id' : type_no,
-                                'no_of_rooms' : rooms_no,
+                                'status' : status_apart,
                                 'carpet_area_no' : int_area,
                                 'terrace_area_no' : ext_area,
                                 'proj_price' : base_price,

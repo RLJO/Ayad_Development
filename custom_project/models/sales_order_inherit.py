@@ -8,16 +8,16 @@ class SalesOrderInherit(models.Model):
     ref_nos = fields.Integer('Reference No:')
 
 
-    @api.multi
-    def _action_confirm(self):
-        result = super(SalesOrderInherit, self)._action_confirm()
-        for line in self.order_line:
-            line.apart_id.status = 'sold'
-            # proj_apart_obj = self.env['project.product'].search([('id', '=', self.id)])
-
-            # if line.apart_id == proj_apart_obj.name:
-            #     proj_apart_obj.name.status = self.status
-        return result
+    # @api.multi
+    # def _action_confirm(self):
+    #     result = super(SalesOrderInherit, self)._action_confirm()
+    #     for line in self.order_line:
+    #         line.apart_id.status = 'sold'
+    #         # proj_apart_obj = self.env['project.product'].search([('id', '=', self.id)])
+    #
+    #         # if line.apart_id == proj_apart_obj.name:
+    #         #     proj_apart_obj.name.status = self.status
+    #     return result
 
 
 
