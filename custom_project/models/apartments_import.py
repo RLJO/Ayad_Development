@@ -8,14 +8,6 @@ from odoo import api, fields, models
 import logging
 _logger = logging.getLogger(__name__)
 
-#
-# class ImportCOA(models.Model):
-#     _inherit = 'account.account'
-#
-#     imported = fields.Boolean('Imported')
-
-
-
 
 class ImportPartners(models.TransientModel):
     _name = 'import.apartments.wizard'
