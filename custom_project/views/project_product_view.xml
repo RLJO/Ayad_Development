@@ -16,10 +16,10 @@
                     <field name="terrace_area_no"/>
                     <field name="proj_price"/>
                     <field name="type_id"/>
-                    <field name="status"/>
                     <field name="part"/>
                     <field name="floor_no"/>
                     <field name="land_title"/>
+                    <field name="status"/>
 
                     <group expand="1" string="Group By">
 
@@ -33,55 +33,108 @@
             <field name="model">project.product</field>
             <field name="arch" type="xml">
                 <form string="Site Status">
-<!--                    <header>-->
-<!--                        <button name="%(custom_project.product_wizard_action)d" string="Update Unit Price" type="action"/>-->
-<!--                    </header>-->
+                    <!--                    <header>-->
+                    <!--                        <button name="%(custom_project.product_wizard_action)d" string="Update Unit Price" type="action"/>-->
+                    <!--                    </header>-->
+
+                    <!--                    <sheet>-->
+                    <!--                        <group col="4">-->
+                    <!--                            <field name="name"/>-->
+                    <!--                            <field name="carpet_area_no"/>-->
+                    <!--                            <field name="project_no"/>-->
+                    <!--                            <field name="terrace_area_no"/>-->
+                    <!--                            <field name="ref_no"/>-->
+                    <!--                            <field name="surface_area"/>-->
+                    <!--                        </group>-->
+                    <!--                        <div class="o_row" groups="custom_project.group_project_manager">-->
+                    <!--                            &lt;!&ndash;                                <label for="proj_price"/>&ndash;&gt;-->
+                    <!--                            <group col="4">-->
+                    <!--                                <field name="proj_price"/><span>/square meter</span>-->
+                    <!--                            </group>-->
+                    <!--                        </div>-->
+                    <!--                        <group>-->
+                    <!--                            <field name="total_price"/>-->
+                    <!--                        </group>-->
+                    <!--                        <group col="4" row="2">-->
+                    <!--                            <field name="type_id"/>-->
+                    <!--                            <field name="status"/>-->
+                    <!--                            <field name="part"/>-->
+                    <!--                            &lt;!&ndash;                            <field name="no_of_rooms"/>&ndash;&gt;-->
+                    <!--                        </group>-->
+                    <!--                        <group col="4">-->
+                    <!--                            <field name="floor_no"/>-->
+                    <!--                            <field name="land_title"/>-->
+                    <!--                            <field name="building_no"/>-->
+                    <!--                            <field name = "document"/>-->
+                    <!--                        </group>-->
+                    <!--                        <div class="o_row" groups="custom_project.group_project_manager">-->
+                    <!--                            &lt;!&ndash;                                <label for="proj_price"/>&ndash;&gt;-->
+                    <!--                            <group col="4">-->
+                    <!--                                <field name="ext_price"/><span>/square meter</span>-->
+                    <!--                                <field name="interior_price"/><span>/square meter</span>-->
+
+                    <!--                            </group>-->
+                    <!--                        </div>-->
+
+                    <!--                    </sheet>-->
+
+
+
 
                     <sheet>
-                    <group col="4">
-                        <field name="name"/>
-                        <field name="carpet_area_no"/>
-                        <field name="project_no"/>
-                        <field name="terrace_area_no"/>
-                        <field name="ref_no"/>
-                        <field name="surface_area"/>
-                    </group>
-                        <div class="o_row" groups="custom_project.group_project_manager">
-<!--                                <label for="proj_price"/>-->
-                            <group col="4">
-                                <field name="proj_price"/><span>/square meter</span>
-                            </group>
-                        </div>
+
+                        <group>
                             <group>
-                                <field name="total_price"/>
-                            </group>
-                        <group col="4" row="2">
-                            <field name="type_id"/>
-                            <field name="status"/>
-                            <field name="part"/>
-<!--                            <field name="no_of_rooms"/>-->
-                        </group>
-                        <group col="4">
-                            <field name="floor_no"/>
-                            <field name="land_title"/>
-                            <field name="building_no"/>
-                            <field name = "document"/>
-                        </group>
-                            <div class="o_row" groups="custom_project.group_project_manager">
-<!--                                <label for="proj_price"/>-->
-                            <group col="4">
+                                <field name="name"/>
+                                <field name="project_no"/>
+                                <field name="ref_no"/>
+
+<!--                                <div class="o_row" groups="custom_project.group_project_manager">-->
+                                    <label for="proj_price"/>
+
+                                        <field name="proj_price"/><span>/square meter</span>
+
+<!--                                </div>-->
+
+                                <field name="type_id"/>
+                                <field name="part"/>
+
+                                <field name="floor_no"/>
+                                <field name="building_no"/>
+
+                                <!--			groups="custom_project.group_project_manager" -->
                                 <field name="ext_price"/><span>/square meter</span>
                                 <field name="interior_price"/><span>/square meter</span>
 
                             </group>
-                            </div>
+
+                            <group>
+                                <field name="carpet_area_no"/>
+                                <field name="terrace_area_no"/>
+                                <field name="surface_area"/>
+                                <field name="total_price"/>
+
+                                <field name="status"/>
+
+                                <field name="land_title"/>
+                                <field name = "document"/>
+
+                            </group>
+                        </group>
 
                     </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
-                </div>
+
+
+
+
+
+
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -91,6 +144,7 @@
             <field name="model">project.product</field>
             <field name="arch" type="xml">
                 <tree string="Apartment Details">
+<<<<<<< HEAD
                         <field name="land_title"/>
                         <field name="name"/>
                         <field name="part"/>
@@ -104,6 +158,20 @@
                         <field name="proj_price" groups="custom_project.group_project_manager"/>
                         <field name="total_price" colspan="4"/>
                         <field name="document"/>
+=======
+                    <field name="land_title"/>
+                    <field name="name"/>
+                    <field name="part"/>
+                    <field name="building_no"/>
+                    <field name="floor_no"/>
+                    <field name="type_id"/>
+                    <field name="carpet_area_no"/>
+                    <field name="terrace_area_no"/>
+                    <field name="surface_area"/>
+                    <field name="proj_price" groups="custom_project.group_project_manager"/>
+                    <field name="total_price" colspan="4"/>
+                    <field name="status"/>
+>>>>>>> 0b62da66d442ce7d5a7578ab18d0a2aaaaeee74f
                 </tree>
             </field>
         </record>
@@ -118,8 +186,8 @@
                 <p class="oe_view_nocontent_create">
                     Create New Apartment.
                 </p><p>
-                    Description goes Here.
-                </p>
+                Description goes Here.
+            </p>
             </field>
         </record>
 
@@ -133,16 +201,16 @@
                 <p class="oe_view_nocontent_create">
                     Create New Apartment.
                 </p><p>
-                    Description goes Here.
-                </p>
+                Description goes Here.
+            </p>
             </field>
         </record>
 
 
         <menuitem id="project_status_main_menu" name="Apartment Details"
-            action="project_apartment_action"
-            parent="project_site_menu"
-            groups="base.group_no_one" />
+                  action="project_apartment_action"
+                  parent="project_site_menu"
+                  groups="base.group_no_one" />
 
     </data>
 

@@ -4,6 +4,8 @@ class AccountInvoiceInherit(models.Model):
 
     _inherit = 'account.invoice'
 
+    company = fields.Char('Company')
+
     # def action_invoice_sent(self):
     #     """ Overridden. Triggered by the 'send by mail' button.
     #     """

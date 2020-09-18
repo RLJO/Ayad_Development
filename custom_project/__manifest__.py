@@ -16,7 +16,7 @@
         'security/ir.model.access.csv',
         'data/product_data.xml',
         'wizards/product_price_wizards_view.xml',
-        'views/apartments_import.xml',
+        'wizards/apartments_import.xml',
         'views/project_product_view.xml',
         'views/project_site.xml',
         # 'views/project_part.xml',
@@ -26,10 +26,10 @@
         'views/account_invoice_inherit_view.xml',
         'views/email_notify.xml',
         'views/contacts_contacts_view.xml',
-        # 'views/sales_order_view_inherit.xml',
+        'views/sales_order_view_inherit.xml',
         'views/res_users.xml',
-        'views/sale_order_line_inherit.xml',
-        # 'views/res_partner_view.xml',
+        # 'views/sale_order_line_inherit.xml',
+        'views/res_partner_view.xml',
 
 
     ],

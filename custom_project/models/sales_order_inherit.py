@@ -4,8 +4,7 @@ class SalesOrderInherit(models.Model):
 
     _inherit = 'sale.order'
 
-    # ref_no = fields.Many2one('res.partner',string='Reference No:',ondelete='cascade')
-    ref_nos = fields.Integer('Reference No:')
+    second_partner_id = fields.Many2one('res.partner',string='Customer',ondelete='cascade')
 
 
     # @api.multi
@@ -72,7 +71,7 @@ class SalesOrderLineInherit(models.Model):
             apart_ids = self.env['project.product'].search([('project_no', '=', self.project_id.id),('status', '=', 'unsold')])
             if rec.project_id.id:
                 return {'domain': {'apart_id':  [('id', 'in', apart_ids.ids)]}}
-    #
+
 
     @api.onchange('apart_id')
     def status_change(self):
