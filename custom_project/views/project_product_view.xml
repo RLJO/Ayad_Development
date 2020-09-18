@@ -103,6 +103,7 @@
                         <field name="surface_area"/>
                         <field name="proj_price" groups="custom_project.group_project_manager"/>
                         <field name="total_price" colspan="4"/>
+                        <field name="document"/>
                 </tree>
             </field>
         </record>

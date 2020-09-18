@@ -22,6 +22,7 @@
                 <form string="Import Apartments">
                     <group>
                         <field name="upload_file"/>
+<!--                        <field name="pdf_binary"/>-->
                     </group>
                     <footer>
                         <button name="import_apartments" string="Import Apartments" type="object" class="oe_highlight"/>

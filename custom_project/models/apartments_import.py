@@ -2,9 +2,15 @@ import base64
 import csv
 from io import StringIO
 from tempfile import TemporaryFile
+import urllib.request as req
+import base64
+import shutil
+
+import requests
+from pathlib import Path
 
 from odoo import api, fields, models
-
+import codecs
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -20,12 +26,20 @@ _logger = logging.getLogger(__name__)
 class ImportPartners(models.TransientModel):
     _name = 'import.apartments.wizard'
 
+    # pdf_binary = fields.Binary("Import PDF")
     upload_file = fields.Binary(string='File URL')
     upload_error = fields.Binary(string='Click To Download Error Log')
     upload_error_file_name = fields.Char("File name")
 
 
     def import_apartments(self):
+        # filename = Path('/opt/metadata.pdf')
+        # url = 'http://www.hrecos.org//images/Data/forweb/HRTVBSH.Metadata.pdf'
+        # request = req.Request(url, headers={'User-Agent': "odoo"})
+        # binary = req.urlopen(request)
+        # pdf = base64.b64encode(binary.read())
+        # project = self.env['project.product'].search([('id','=',522)])
+        # project.write({'document' : pdf})
         csv_datas = self.upload_file
         fileobj = TemporaryFile('wb+')
         csv_datas = base64.decodebytes(csv_datas)
@@ -59,6 +73,7 @@ class ImportPartners(models.TransientModel):
                     ext_area = value[8].strip() or False
                     base_price = value[9].strip() or False
                     project = value[10].strip() or False
+                    pdf_url = value[11].strip() or False
 
 
                     project_obj = self.env['project.site'].search([('name', '=', project)])
@@ -68,20 +83,13 @@ class ImportPartners(models.TransientModel):
                     if project_obj.id == apartment_obj.project_no.id:
                         print('Apartment already Exists with Project.')
                     elif not apartment_obj:
-                        apartment_vals = {
-                            'land_title': title,
-                            'name': apartment_no,
-                            'part': part,
-                            'building_no' : building,
-                            'floor_no' : floor,
-                            'type_id' : type_no,
-                            'status' : status_apart,
-                            'carpet_area_no' : int_area,
-                            'terrace_area_no' : ext_area,
-                            'proj_price' : base_price,
-                            'project_no' : project_obj.id,
-                            }
-                    elif apartment_obj:
+                        # url = 'http://www.hrecos.org//images/Data/forweb/HRTVBSH.Metadata.pdf'
+                        if pdf_url:
+                            request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
+                            binary = req.urlopen(request)
+                            pdf = base64.b64encode(binary.read())
+                        # project = self.env['project.product'].search([('id', '=', 522)])
+                        # project.write({'document': pdf})
                             apartment_vals = {
                                 'land_title': title,
                                 'name': apartment_no,
@@ -94,7 +102,56 @@ class ImportPartners(models.TransientModel):
                                 'terrace_area_no' : ext_area,
                                 'proj_price' : base_price,
                                 'project_no' : project_obj.id,
+                                'document' : pdf or False,
                                 }
+                        else:
+                            apartment_vals = {
+                                'land_title': title,
+                                'name': apartment_no,
+                                'part': part,
+                                'building_no': building,
+                                'floor_no': floor,
+                                'type_id': type_no,
+                                'status': status_apart,
+                                'carpet_area_no': int_area,
+                                'terrace_area_no': ext_area,
+                                'proj_price': base_price,
+                                'project_no': project_obj.id,
+                            }
+                    elif apartment_obj:
+                        if pdf_url:
+                            request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
+                            binary = req.urlopen(request)
+                            pdf = base64.b64encode(binary.read())
+
+                            apartment_vals = {
+                                'land_title': title,
+                                'name': apartment_no,
+                                'part': part,
+                                'building_no' : building,
+                                'floor_no' : floor,
+                                'type_id' : type_no,
+                                'status' : status_apart,
+                                'carpet_area_no' : int_area,
+                                'terrace_area_no' : ext_area,
+                                'proj_price' : base_price,
+                                'project_no' : project_obj.id,
+                                'document' : pdf or False,
+                                }
+                        else:
+                            apartment_vals = {
+                                'land_title': title,
+                                'name': apartment_no,
+                                'part': part,
+                                'building_no': building,
+                                'floor_no': floor,
+                                'type_id': type_no,
+                                'status': status_apart,
+                                'carpet_area_no': int_area,
+                                'terrace_area_no': ext_area,
+                                'proj_price': base_price,
+                                'project_no': project_obj.id,
+                            }
                         # if account_type.id == 1 or account_type.id == 2:
                         #     acc_vals.update({'reconcile': True})
                     new_apartment_id = self.env['project.product'].sudo().create(apartment_vals)
