@@ -12,7 +12,7 @@ class ContactsContacts(models.Model):
     apart_no = fields.Many2many('project.product', string='Apartment',ondelete='cascade')
     interest_client = fields.Text('Summary')
     date_time = fields.Datetime('Date & Time', default=lambda self: fields.Datetime.now())
-    responsible = fields.Many2one('res.users',default=lambda self: self.env.user, string='Responsible Person')
+    responsible_person_id = fields.Many2one('res.users',default=lambda self: self.env.user, string='Responsible Person')
 
     @api.onchange('project_no')
     def status_project(self):

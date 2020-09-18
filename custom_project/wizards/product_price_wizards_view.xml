@@ -1,7 +1,5 @@
 <odoo>
 
-    <menuitem id="project_site_menu" name="Project Details"/>
-
     <record id="product_wizard_form" model="ir.ui.view">
         <field name="name">product.price.wizards.form</field>
         <field name="model">product.price.wizards</field>
@@ -41,6 +39,6 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem id="product_price_wizard" name="Update Price" parent="custom_project.project_site_menu" action="product_wizard_action"/>
+    <menuitem id="product_price_wizard" name="Update Price" parent="custom_project.project_site_menu" action="product_wizard_action" groups="custom_project.group_project_manager"/>
 
 </odoo>

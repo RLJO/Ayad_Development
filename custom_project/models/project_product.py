@@ -11,7 +11,7 @@ class ProjectProduct(models.Model):
     part = fields.Char('Part')
     building_no = fields.Char('Building No')
     floor_no = fields.Char('Floor No')
-    type_id = fields.Char('Apartment Type')
+    type_id = fields.Char('Type')
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
     total_price = fields.Float('Total Price',compute='compute_price')

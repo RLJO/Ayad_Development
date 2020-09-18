@@ -4,8 +4,7 @@ class SalesOrderInherit(models.Model):
 
     _inherit = 'sale.order'
 
-    # ref_no = fields.Many2one('res.partner',string='Reference No:',ondelete='cascade')
-    ref_nos = fields.Integer('Reference No:')
+    second_partner_id = fields.Many2one('res.partner',string='Customer',ondelete='cascade')
 
 
     # @api.multi
