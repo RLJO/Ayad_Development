@@ -26,13 +26,15 @@ class ContactsContacts(models.Model):
         contact_vals = vals.get('contact_details')
         proj_no = vals.get('project_no')
         # apart_nos = vals.get('apart_no')
+
         res_part_obj = self.env['res.partner'].search([('id', '=', contact_vals)])
         proj_part_obj = self.env['project.site'].search([('id', '=', proj_no)])
         # apart_part_obj = self.env['project.product'].search([('id', '=', apart_nos)])
+
         if vals['interest_client'] and proj_part_obj:
             # body = 'Thank You for visiting.'
             body1 = 'Meeting Summary:' + ' ' + vals['interest_client']
-            body2 = 'visited Project:' + ' ' + str(proj_part_obj.name) + 'Visited Apartment:'+ ' '+ vals['interest_client']
+            body2 = 'visited Project:' + ' ' + str(proj_part_obj.name)
 
             message = self.env['mail.message'].create({
                 'model': 'res.partner',
