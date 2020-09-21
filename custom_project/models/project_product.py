@@ -21,7 +21,7 @@ class ProjectProduct(models.Model):
     ext_price = fields.Integer('Exterior Unit Price')
     interior_price = fields.Integer('Interior Unit Price')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
-    document = fields.Binary(string="Document")
+    document = fields.Binary("Document")
     # no_of_rooms = fields.Integer('Total Rooms')
 
     # document_name = fields.Char(string="File Name")
