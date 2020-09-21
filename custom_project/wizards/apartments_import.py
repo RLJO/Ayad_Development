@@ -33,13 +33,7 @@ class ImportPartners(models.TransientModel):
 
 
     def import_apartments(self):
-        # filename = Path('/opt/metadata.pdf')
-        # url = 'http://www.hrecos.org//images/Data/forweb/HRTVBSH.Metadata.pdf'
-        # request = req.Request(url, headers={'User-Agent': "odoo"})
-        # binary = req.urlopen(request)
-        # pdf = base64.b64encode(binary.read())
-        # project = self.env['project.product'].search([('id','=',522)])
-        # project.write({'document' : pdf})
+
         csv_datas = self.upload_file
         fileobj = TemporaryFile('wb+')
         csv_datas = base64.decodebytes(csv_datas)
