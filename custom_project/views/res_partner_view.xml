@@ -8,6 +8,24 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vat']" position="after">
                     <field name="passport_no"/>
+
+                    <field name="visited_ids">
+                        <tree>
+                            <field name="project_id"/>
+                            <field name="apartment_id"/>
+                        </tree>
+
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="project_id"/>
+                                </group>
+                                <group>
+                                    <field name="apartment_id" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
                 </xpath>
 
             </field>

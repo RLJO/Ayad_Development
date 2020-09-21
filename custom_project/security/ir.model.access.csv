@@ -4,6 +4,7 @@ access_contacts_contacts_user,access.contacts.contacts.user,custom_project.model
 access_contacts_contacts_manager,access.contacts.contacts.manager,custom_project.model_contacts_contacts,custom_project.group_project_manager,1,1,1,1
 
 access_email_notify,access.email.notify,custom_project.model_email_notify,base.group_user,1,1,1,1
+access_contact_visitor_line,access.contact.visitor.line,custom_project.model_contact_visitor_line,base.group_user,1,1,1,1
 
 access_project_site_user,access.project.site.user,custom_project.model_project_site,custom_project.group_project_user,1,0,0,0
 access_project_site_manager,access.project.site.manager,custom_project.model_project_site,custom_project.group_project_manager,1,1,1,1
