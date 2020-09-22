@@ -25,42 +25,49 @@ class ContactsContacts(models.Model):
         res = super(ContactsContacts, self).create(vals)
         contact_vals = vals.get('contact_details')
         proj_no = vals.get('project_no')
-        # apart_nos = vals.get('apart_no')
+        apart_nos = vals.get('apart_no')
 
-        res_part_obj = self.env['res.partner'].search([('id', '=', contact_vals)])
-        proj_part_obj = self.env['project.site'].search([('id', '=', proj_no)])
-        # apart_part_obj = self.env['project.product'].search([('id', '=', apart_nos)])
+        res_partner_obj = self.env['res.partner'].search([('id', '=', contact_vals)])
+        proj_site_obj = self.env['project.site'].search([('id', '=', proj_no)])
 
-        if vals['interest_client'] and proj_part_obj:
+
+        if vals['interest_client'] and proj_site_obj:
             # body = 'Thank You for visiting.'
-            body1 = 'Meeting Summary:' + ' ' + vals['interest_client']
-            body2 = 'visited Project:' + ' ' + str(proj_part_obj.name)
+            log_msg = 'Visited Project: ' + str(proj_site_obj.name) + ' On  %s' % (datetime.now()) + ' Meeting Summary: ' + vals['interest_client']
 
             message = self.env['mail.message'].create({
                 'model': 'res.partner',
-                'res_id': int(res_part_obj.id),
+                'res_id': int(res_partner_obj.id),
                 'message_type': 'email',
-                'body': [body2 , body1,('Visitor Date & Time: %s') % (
-                        datetime.now())],
-                'author_id': res_part_obj.id,
-                'email_from': formataddr((res_part_obj.name, res_part_obj.email)),
+                'body': log_msg,
+                'author_id': res_partner_obj.id,
+                'email_from': formataddr((res_partner_obj.name, res_partner_obj.email)),
                 'subtype_id': self.env['mail.message.subtype'].search([('name', '=', 'note')]).id
             })
-            crm_obj = self.env['crm.lead'].search([('partner_id', '=', res_part_obj.id)])
+            
+            crm_obj = self.env['crm.lead'].search([('partner_id', '=', res_partner_obj.id)])
 
             crm_message = self.env['mail.message'].create({
                 'model': 'crm.lead',
                 'res_id': int(crm_obj.id),
                 'message_type': 'email',
-                # 'body': body1,
-                'body': [body2,body1,('Visitor Date & Time: %s') % (
-                 datetime.now())],
-
+                'body': log_msg,
 
             # 'author_id': crm_obj.id,
             #  'email_from': formataddr((crm_obj.partner_id, crm_obj.email_from)),
             # 'subtype_id': self.env['mail.message.subtype'].search([('name', '=', 'note')]).id
-        })
+            })
+
+            apartment_many_lst= []
+            for i in apart_nos[0][2]:
+                apartment_many_lst.append(i)
+
+            visitor_line_id = self.env['contact.visitor.line'].create({'project_id': proj_site_obj.id, 'apartment_id': [(6, 0, apartment_many_lst)], 'partner_id': res_partner_obj.id})
+
+            res_partner_obj.write({'visited_ids': [(4, visitor_line_id.id)],})
+
+
+
         # return message
         # res = super(ContactsContacts, self).create(vals)
         return res
