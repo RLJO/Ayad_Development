@@ -5,6 +5,7 @@ class AccountInvoiceInherit(models.Model):
     _inherit = 'account.invoice'
 
     company = fields.Char('Company')
+    notary_done = fields.Boolean("Notary Done")
 
 
     # def action_invoice_sent(self):
@@ -38,13 +39,13 @@ class AccountInvoiceLineInherit(models.Model):
     project_id = fields.Many2one('project.site', string='Project')
     apart_id = fields.Many2one('project.product', string='Apartments')
 
-    apart_status = fields.Selection([('sold', 'Sold'), ('unsold', 'Unsold'), ('reserved', 'Reserved')], string='Status',
+    apart_status = fields.Selection([('sold', 'Sold'), ('unsold', 'Unsold'), ('reserved', 'Reserved'),('notary_done','Notary Done')], string='Status',
                                     compute='update_apartment_status')
 
     @api.depends('invoice_id.state')
     def update_apartment_status(self):
         # apartment = self.env['project.product'].search([('id','=',self.apart_id.id),('project_no.id', '=', self.project_id.id)])
-        if self.invoice_id.state == 'open':
+        if self.invoice_id.state == 'open' and self.invoice_id.residual < self.invoice_id.amount_total:
             self.apart_status = 'reserved'
             self.apart_id.sudo().write({'status' : 'reserved'})
         if self.invoice_id.state == 'draft':
@@ -53,11 +54,16 @@ class AccountInvoiceLineInherit(models.Model):
         if self.invoice_id.state == 'paid':
             self.apart_status = 'sold'
             self.apart_id.sudo().write({'status' : 'sold'})
+        if self.invoice_id.notary_done == True:
+            self.apart_status = 'notary_done'
+            self.apart_id.sudo().write({'status': 'notary_done',
+                                        'notary_done':'True'})
+
 
     @api.onchange('project_id')
     def status_apart(self):
         for rec in self:
-            return {'domain': {'apart_id': [('project_no', '=', rec.project_id.id)]}}
+            return {'domain': {'apart_id': [('project_no.id', '=', rec.project_id.id)]}}
 
     # @api.multi
     # def _prepare_invoice_line(self, qty):
