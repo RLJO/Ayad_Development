@@ -6,6 +6,7 @@ class AccountInvoiceInherit(models.Model):
 
     company = fields.Char('Company')
 
+
     # def action_invoice_sent(self):
     #     """ Overridden. Triggered by the 'send by mail' button.
     #     """
@@ -16,6 +17,7 @@ class AccountInvoiceInherit(models.Model):
     #     #     rslt['context']['l10n_ch_mark_isr_as_sent'] = True
     #
     #     return rslt
+
 
     def action_invoice_open(self):
 
@@ -36,6 +38,21 @@ class AccountInvoiceLineInherit(models.Model):
     project_id = fields.Many2one('project.site', string='Project')
     apart_id = fields.Many2one('project.product', string='Apartments')
 
+    apart_status = fields.Selection([('sold', 'Sold'), ('unsold', 'Unsold'), ('reserved', 'Reserved')], string='Status',
+                                    compute='update_apartment_status')
+
+    @api.depends('invoice_id.state')
+    def update_apartment_status(self):
+        # apartment = self.env['project.product'].search([('id','=',self.apart_id.id),('project_no.id', '=', self.project_id.id)])
+        if self.invoice_id.state == 'open':
+            self.apart_status = 'reserved'
+            self.apart_id.sudo().write({'status' : 'reserved'})
+        if self.invoice_id.state == 'draft':
+            self.apart_status = 'unsold'
+            self.apart_id.sudo().write({'status' : 'unsold'})
+        if self.invoice_id.state == 'paid':
+            self.apart_status = 'sold'
+            self.apart_id.sudo().write({'status' : 'sold'})
 
     @api.onchange('project_id')
     def status_apart(self):

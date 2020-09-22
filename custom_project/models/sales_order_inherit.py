@@ -37,9 +37,16 @@ class SalesOrderLineInherit(models.Model):
     #     res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
     #     return res
 
+    # @api.multi
+    # def create_invoices(self):
+    #     res = super(SalesOrderLineInherit, self).create_invoices()
+    #     # if self.advance_payment_method == 'percentage':
+    #     res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
+    #     return res
+
     @api.multi
-    def create_invoices(self):
-        res = super(SalesOrderLineInherit, self).create_invoices()
+    def _prepare_invoice_line(self, qty):
+        res = super(SalesOrderLineInherit, self)._prepare_invoice_line(qty)
         # if self.advance_payment_method == 'percentage':
         res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
         return res

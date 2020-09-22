@@ -4,8 +4,8 @@ from io import StringIO
 from tempfile import TemporaryFile
 import urllib.request as req
 import base64
-import shutil
-
+import re
+from odoo.exceptions import UserError
 import requests
 from pathlib import Path
 
@@ -79,9 +79,15 @@ class ImportPartners(models.TransientModel):
                     elif not apartment_obj:
                         # url = 'http://www.hrecos.org//images/Data/forweb/HRTVBSH.Metadata.pdf'
                         if pdf_url:
-                            request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
-                            binary = req.urlopen(request)
-                            pdf = base64.b64encode(binary.read())
+                            try:
+                                if pdf_url.__contains__('drive.google.com'):
+                                    pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
+                                    pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
+                                request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
+                                binary = req.urlopen(request)
+                                pdf = base64.b64encode(binary.read())
+                            except Exception as e:
+                                raise UserError(e)
                         # project = self.env['project.product'].search([('id', '=', 522)])
                         # project.write({'document': pdf})
                             apartment_vals = {
@@ -114,10 +120,15 @@ class ImportPartners(models.TransientModel):
                             }
                     elif apartment_obj:
                         if pdf_url:
-                            request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
-                            binary = req.urlopen(request)
-                            pdf = base64.b64encode(binary.read())
-
+                            try:
+                                if pdf_url.__contains__('drive.google.com'):
+                                    pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
+                                    pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
+                                request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
+                                binary = req.urlopen(request)
+                                pdf = base64.b64encode(binary.read())
+                            except Exception as e:
+                                raise UserError(e)
                             apartment_vals = {
                                 'land_title': title,
                                 'name': apartment_no,

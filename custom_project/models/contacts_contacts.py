@@ -26,6 +26,7 @@ class ContactsContacts(models.Model):
         contact_vals = vals.get('contact_details')
         proj_no = vals.get('project_no')
         # apart_nos = vals.get('apart_no')
+        mail = self.env['mail.mail']
 
         res_part_obj = self.env['res.partner'].search([('id', '=', contact_vals)])
         proj_part_obj = self.env['project.site'].search([('id', '=', proj_no)])
@@ -60,7 +61,27 @@ class ContactsContacts(models.Model):
             # 'author_id': crm_obj.id,
             #  'email_from': formataddr((crm_obj.partner_id, crm_obj.email_from)),
             # 'subtype_id': self.env['mail.message.subtype'].search([('name', '=', 'note')]).id
-        })
+            })
+        thank_you_message = """Hello """+res.contact_details.name+""",<br/><p>   Thank you for visiting and showing
+         interest in """ +res.project_no.name+""" ,keep visiting."""
+        attachment_ids =[]
+        for apartment in res.apart_no:
+            if apartment.document:
+                attachment = self.env['ir.attachment'].create({
+                    'name': str(apartment.name),
+                    'datas': apartment.document,
+                    'res_model': 'contacts.contacts',
+                    'type':'binary'
+                })
+                attachment_ids.append(attachment.id)
+
+        values = {
+            'subject': "visit Again",
+            'body_html': thank_you_message,
+            'email_to': res.contact_details.email,
+            'attachment_ids': [(6, 0, attachment_ids)] or False,
+        }
+        mail.create(values).send()
         # return message
         # res = super(ContactsContacts, self).create(vals)
         return res

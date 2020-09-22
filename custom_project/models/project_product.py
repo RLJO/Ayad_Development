@@ -15,7 +15,7 @@ class ProjectProduct(models.Model):
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
     total_price = fields.Float('Total Price',compute='compute_price')
-    status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status')
+    status = fields.Selection([('sold','Sold'),('unsold','Unsold'),('reserved','Reserved')],string='Status')
     carpet_area_no = fields.Integer('Interior Area')
     terrace_area_no = fields.Integer('Exterior Area')
     ext_price = fields.Integer('Exterior Unit Price')
