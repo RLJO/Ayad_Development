@@ -15,13 +15,14 @@ class ProjectProduct(models.Model):
     land_title = fields.Char('Land Title')
     proj_price = fields.Float("Unit Price")
     total_price = fields.Float('Total Price',compute='compute_price')
-    status = fields.Selection([('sold','Sold'),('unsold','Unsold')],string='Status')
+    status = fields.Selection([('sold','Sold'),('unsold','Unsold'),('reserved','Reserved'),('notary_done','Notary Done')],string='Status')
     carpet_area_no = fields.Integer('Interior Area')
     terrace_area_no = fields.Integer('Exterior Area')
     ext_price = fields.Integer('Exterior Unit Price')
     interior_price = fields.Integer('Interior Unit Price')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
     document = fields.Binary("Document")
+    notary_done = fields.Boolean("Notary Done")
     # no_of_rooms = fields.Integer('Total Rooms')
 
     # document_name = fields.Char(string="File Name")
@@ -35,6 +36,10 @@ class ProjectProduct(models.Model):
     #     res['status'] = values.get('status', False)
     #     return res
 
+    @api.onchange('notary_done')
+    def update_status(self):
+        if self.notary_done:
+            self.status = 'notary_done'
 
     @api.model
     @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
