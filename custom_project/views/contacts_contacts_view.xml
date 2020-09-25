@@ -8,7 +8,7 @@
             <field name="name">contacts.contacts.tree</field>
             <field name="model">contacts.contacts</field>
             <field name="arch" type="xml">
-                <tree string="Visitors Site" editable="top">
+                <tree string="Visitors Site" editable="top" default_order='date_time'>
                     <field name="contact_details"/>
                     <field name="project_no"/>
                     <field name="apart_no" widget="many2many_tags"/>

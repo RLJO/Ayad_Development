@@ -254,7 +254,6 @@
             <field name="model">project.product</field>
             <field name="arch" type="xml">
                 <tree string="Apartment Details">
-                    <field name="land_title"/>
                     <field name="name"/>
                     <field name="part"/>
                     <field name="building_no"/>
@@ -270,8 +269,6 @@
                     <field name="total_price" colspan="4"/>
 
                     <field name="status"/>
-
-                    <field name="document"/>
 
                 </tree>
             </field>

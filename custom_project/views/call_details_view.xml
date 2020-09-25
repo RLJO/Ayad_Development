@@ -10,7 +10,7 @@
                     <field name="project_id"/>
                     <field name="apart_id" widget="many2many_tags"/>
                     <field name="interest_client"/>
-                    <field name="date_time"/>
+                    <field name="visit_date"/>
                     <field name="responsible_person_id" />
                 </tree>
             </field>
@@ -38,7 +38,7 @@
                     <field name="project_id"/>
                     <field name="apart_id"/>
                     <field name="interest_client"/>
-                    <field name="date_time"/>
+                    <field name="visit_date"/>
 
                 </search>
             </field>

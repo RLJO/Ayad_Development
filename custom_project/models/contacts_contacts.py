@@ -7,10 +7,10 @@ class ContactsContacts(models.Model):
 
     _name = 'contacts.contacts'
 
-    contact_details = fields.Many2one('res.partner', string='Customer',ondelete='cascade')
-    project_no = fields.Many2one('project.site', string='Project',ondelete='cascade')
+    contact_details = fields.Many2one('res.partner', string='Customer',ondelete='cascade', required= True)
+    project_no = fields.Many2one('project.site', string='Project',ondelete='cascade', required= True)
     apart_no = fields.Many2many('project.product', string='Apartment',ondelete='cascade')
-    interest_client = fields.Text('Summary')
+    interest_client = fields.Text('Summary', required= True)
     date_time = fields.Datetime('Date & Time', default=lambda self: fields.Datetime.now())
     responsible_person_id = fields.Many2one('res.users',default=lambda self: self.env.user, string='Responsible Person')
 

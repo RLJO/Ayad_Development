@@ -6,7 +6,6 @@ class AccountInvoiceInherit(models.Model):
 
     company = fields.Char('Company')
     notary_done = fields.Boolean("Notary Done")
-    second_partner_id = fields.Many2one('res.partner',string='Customer',)
 
     second_partner_id = fields.Many2one('res.partner', string='Customer', ondelete='cascade')
 
