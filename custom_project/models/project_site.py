@@ -4,8 +4,8 @@ class ProjectSite(models.Model):
 
     _name = 'project.site'
 
-    name = fields.Char('Project Name:')
-    project_type = fields.Selection([('under_const','Under Construction'),('developed','Developed')],string='Type:')
+    name = fields.Char('Project Name', required= True)
+    project_type = fields.Selection([('under_const','Under Construction'),('developed','Developed')],string='Type')
     status = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Completion Status')
     payment_terms = fields.Selection([('partial', '10%'), ('half', '50%'),('full','100%')],string='Payment Terms')
     part = fields.Many2many('project.part', string='Part')

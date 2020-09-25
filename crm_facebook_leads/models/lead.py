@@ -202,11 +202,27 @@ class CrmLead(models.Model):
 
         mail = vals.get('email_from')
         phone = vals.get('phone')
+        sliced_phone= phone[-9:]
 
-        contact_searc_obj = self.env['res.partner'].search([('email', '=', vals['email_from']), ('phone', '=', vals['phone'])])
+        # contact_searc_obj = self.env['res.partner'].search([('email', '=', vals['email_from']), ('phone', '=', vals['phone'])])
+        contact_searc_obj = self.env['res.partner'].search([])
+        contact_phone = contact_searc_obj.mapped('phone')
+        slice_phone_lst = []
 
-        if contact_searc_obj:
-            vals.update({'partner_id': contact_searc_obj.id})
+        for slice_phone in contact_phone:
+            if slice_phone:
+                lst_slice = slice_phone[-9:]
+                slice_phone_lst.append(lst_slice)
+
+        if sliced_phone in slice_phone_lst:
+            for partner in contact_searc_obj:
+                if partner.phone:
+                    if slice_phone == partner.phone[-9:]:
+                        vals.update({'partner_id': partner.id})
+
+
+        # if contact_searc_obj:
+        #     vals.update({'partner_id': contact_searc_obj.id})
 
         else:
             contact_id = self.env['res.partner'].create({

@@ -13,6 +13,8 @@ class CrmInherit(models.Model):
 
     interest = fields.Char('Interest')
 
+    second_partner_id = fields.Many2one('res.partner', string='Customer', ondelete='cascade')
+
     @api.onchange('select_project')
     def status_project(self):
         for rec in self:
