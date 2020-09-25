@@ -31,7 +31,12 @@
         'views/res_users.xml',
         # 'views/sale_order_line_inherit.xml',
         'views/res_partner_view.xml',
+
         'views/call_details_view.xml',
+
+        # 'report/apartment_sales_report.xml',
+        # 'report/apartment_sales_report_template.xml',
+        'wizards/apartment_sales_wizard.xml'
 
 
     ],
