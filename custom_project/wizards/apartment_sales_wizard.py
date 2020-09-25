@@ -13,6 +13,7 @@ class ApartmentSales(models.TransientModel):
     def print_apartment_sales_report(self):
         invoice_lines = self.env['account.invoice.line'].search([('project_id.id','=',self.project.id),('apart_id','!=',False),('invoice_id.type','=','out_invoice')])
         apartment_sales=[]
+        apartment_ids=[]
         for line in invoice_lines:
             # invoices_list = []
             # partners =''
@@ -38,8 +39,9 @@ class ApartmentSales(models.TransientModel):
                 'amount_unpaid': line.invoice_id.residual,
                 'total': line.invoice_id.amount_total,
             }
+            apartment_ids.append(line.apart_id.id)
             apartment_sales.append(invoice_dict)
-        apartments = self.env['project.product'].search([('status','=','unsold'),('project_no.id','=',self.project.id)])
+        apartments = self.env['project.product'].search([('id','not in',apartment_ids),('project_no.id','=',self.project.id)])
         for apartment in apartments:
             invoice_dict = {
                 'apartment': apartment.name,
@@ -69,17 +71,21 @@ class ApartmentSales(models.TransientModel):
                 "font:height 200; font: name Liberation Sans, bold on,color black; align: horiz center")
             style_line = xlwt.easyxf("align: horiz center")
 
-            worksheet.write_merge(0,1,0,6,self.project.name +' Sales Report',style=style_header)
+            worksheet.write_merge(0,1,0,7,self.project.name +' Sales Report',style=style_header)
 
             worksheet.write(2, 0, 'Apartment', style = style_subheader)
             worksheet.write(2, 1, 'Status', style = style_subheader)
             worksheet.write(2, 2, 'Customers', style = style_subheader)
-            worksheet.write(2,3, 'Invoice',style = style_subheader)
-            worksheet.write(2,4, 'Description',style = style_subheader)
+            worksheet.write(2, 3, 'Invoice',style = style_subheader)
+            worksheet.write(2, 4, 'Description',style = style_subheader)
             worksheet.write(2, 5, 'Amount Paid', style = style_subheader)
             worksheet.write(2, 6, 'Amount Unpaid', style = style_subheader)
             worksheet.write(2, 7, 'Total', style = style_subheader)
-
+            worksheet.col(2).width = 256*40
+            worksheet.col(3).width = 256*22
+            worksheet.col(4).width = 256*23
+            worksheet.col(5).width = 256*18
+            worksheet.col(6).width = 256*18
             row = 3
             for apartment in apartment_sales:
                 worksheet.write(row,0, apartment['apartment'],style = style_line)

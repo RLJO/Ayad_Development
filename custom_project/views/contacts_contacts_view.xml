@@ -2,8 +2,6 @@
 <odoo>
     <data>
 
-        <menuitem id="project_site_menu" name="Project Details"/>
-
         <record id="contacts_contacts_tree" model="ir.ui.view">
             <field name="name">contacts.contacts.tree</field>
             <field name="model">contacts.contacts</field>
@@ -34,7 +32,7 @@
 
             <menuitem id="contacts_contacts_main_menu" name="Visitors Details"
                action="contacts_contacts_action"
-              parent="project_site_menu"/>
+              parent="custom_project.project_site_menu"/>
 
     </data>
 </odoo>

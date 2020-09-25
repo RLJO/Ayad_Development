@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="project_site_menu" name="Project Details"/>
 
 <!--        <record id="project_site_form" model="ir.ui.view">-->
 <!--            <field name="name">project.site.form</field>-->
@@ -94,6 +93,6 @@
 
         <menuitem id="project_site_main_menu" name="Project Site Details"
                   sequence="1" action="custom_project.project_site_action"
-                  parent="project_site_menu"/>
+                  parent="custom_project.project_site_menu"/>
     </data>
 </odoo>
