@@ -17,6 +17,7 @@
         'data/product_data.xml',
         'wizards/product_price_wizards_view.xml',
         'wizards/apartments_import.xml',
+        'wizards/register_payment_wizard_inherit_view.xml',
         'views/project_product_view.xml',
         'views/project_site.xml',
         # 'views/project_part.xml',
@@ -30,6 +31,7 @@
         'views/res_users.xml',
         # 'views/sale_order_line_inherit.xml',
         'views/res_partner_view.xml',
+        'views/call_details_view.xml',
 
 
     ],

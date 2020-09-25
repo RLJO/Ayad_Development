@@ -46,7 +46,8 @@ class SalesInherit(models.TransientModel):
             return {}
 
 
-
+    # Overriding this method to pass project and apartment to invoice_line _ids from SO
+    # in sale_line_obj.create
     @api.multi
     def create_invoices(self):
         sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
@@ -106,7 +107,7 @@ class SalesInherit(models.TransientModel):
 
 
 
-
+    # Overriding this method to pass 2nd partner_id in invoice, project and apartment in invoice_line
     @api.multi
     def _create_invoice(self, order, so_line, amount):
         inv_obj = self.env['account.invoice']
@@ -148,6 +149,7 @@ class SalesInherit(models.TransientModel):
             'reference': False,
             'account_id': order.partner_id.property_account_receivable_id.id,
             'partner_id': order.partner_invoice_id.id,
+            'second_partner_id': order.second_partner_id.id,
             'partner_shipping_id': order.partner_shipping_id.id,
             'invoice_line_ids': [(0, 0, {
                 'project_id': so_line.project_id.id,

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.tools import formataddr
 from datetime import datetime
 
@@ -52,11 +52,13 @@ class ContactsContacts(models.Model):
             
             crm_obj = self.env['crm.lead'].search([('partner_id', '=', res_partner_obj.id)])
 
-            crm_message = self.env['mail.message'].create({
-                'model': 'crm.lead',
-                'res_id': int(crm_obj.id),
-                'message_type': 'email',
-                'body': log_msg,
+            for crm in crm_obj:
+
+                crm_message = self.env['mail.message'].create({
+                    'model': 'crm.lead',
+                    'res_id': int(crm.id),
+                    'message_type': 'email',
+                    'body': log_msg,
 
             # 'author_id': crm_obj.id,
             #  'email_from': formataddr((crm_obj.partner_id, crm_obj.email_from)),
@@ -96,8 +98,37 @@ class ContactsContacts(models.Model):
         }
         mail.create(values).send()
 
-        # return message
-        # res = super(ContactsContacts, self).create(vals)
+
         return res
 
 
+
+    def next_meet(self):
+
+        # active_id = self._context.get('active_id')
+        # res_partner_obj = self.env['res.partner'].search([('')])
+
+        res_partner_users_obj = self.env['res.partner'].search([('name', '=', self.responsible_person_id.name)])
+
+        partner_lst= []
+
+        partner_lst.append(self.contact_details.id)
+        if res_partner_users_obj:
+            partner_lst.append(res_partner_users_obj.id)
+
+        ctx= {'default_partner_ids': [(6, 0, partner_lst)]}
+
+
+        return {
+            'name': _('Next Meeting'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'calendar.event',
+            # 'res_id': return_wiz.id,
+            'res_id': self._context.get('active_id'),
+            'view_id': False,
+            'target': 'new',
+            'views': False,
+            'type': 'ir.actions.act_window',
+            'context': ctx,
+        }

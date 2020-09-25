@@ -15,6 +15,7 @@
                     <field name="interest_client"/>
                     <field name="date_time"/>
                     <field name="responsible_person_id" />
+                    <button name="next_meet" string="Schedule Next Meet" type="object" class="oe_highlight"/>
                 </tree>
             </field>
         </record>
@@ -31,6 +32,25 @@
                 </p>
             </field>
         </record>
+
+
+
+        <record id="view_visitor_filter" model="ir.ui.view">
+            <field name="name">view.visitor.filter</field>
+            <field name="model">contacts.contacts</field>
+            <field name="arch" type="xml">
+                <search string="Search Contact">
+                    <field name="contact_details"/>
+                    <field name="project_no"/>
+                    <field name="apart_no"/>
+                    <field name="interest_client"/>
+                    <field name="date_time"/>
+
+                </search>
+            </field>
+        </record>
+
+
 
             <menuitem id="contacts_contacts_main_menu" name="Visitors Details"
                action="contacts_contacts_action"

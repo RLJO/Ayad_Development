@@ -7,6 +7,8 @@ class AccountInvoiceInherit(models.Model):
     company = fields.Char('Company')
     notary_done = fields.Boolean("Notary Done")
 
+    second_partner_id = fields.Many2one('res.partner', string='Customer', ondelete='cascade')
+
 
     # def action_invoice_sent(self):
     #     """ Overridden. Triggered by the 'send by mail' button.
