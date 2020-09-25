@@ -85,8 +85,8 @@ class SalesInherit(models.TransientModel):
                 for line in order.order_line:
                     analytic_tag_ids = [(4, analytic_tag.id, None) for analytic_tag in line.analytic_tag_ids]
                 so_line = sale_line_obj.create({
-                    'project_id': order.order_line.project_id.id,
-                    'apart_id': order.order_line.apart_id.id,
+                    'project_id': order.order_line[0].project_id.id,
+                    'apart_id': order.order_line[0].apart_id.id,
                     'name': _('Advance: %s') % (time.strftime('%m %Y'),),
                     'price_unit': amount,
                     'product_uom_qty': 0.0,
@@ -148,6 +148,7 @@ class SalesInherit(models.TransientModel):
             'reference': False,
             'account_id': order.partner_id.property_account_receivable_id.id,
             'partner_id': order.partner_invoice_id.id,
+            'second_partner_id': order.second_partner_id.id,
             'partner_shipping_id': order.partner_shipping_id.id,
             'invoice_line_ids': [(0, 0, {
                 'project_id': so_line.project_id.id,

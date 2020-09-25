@@ -6,6 +6,7 @@ class AccountInvoiceInherit(models.Model):
 
     company = fields.Char('Company')
     notary_done = fields.Boolean("Notary Done")
+    second_partner_id = fields.Many2one('res.partner',string='Customer',)
 
 
     # def action_invoice_sent(self):
@@ -45,15 +46,17 @@ class AccountInvoiceLineInherit(models.Model):
     @api.depends('invoice_id.state')
     def update_apartment_status(self):
         # apartment = self.env['project.product'].search([('id','=',self.apart_id.id),('project_no.id', '=', self.project_id.id)])
-        if self.invoice_id.state == 'open' and self.invoice_id.residual < self.invoice_id.amount_total:
+        if (self.invoice_id.state == 'open' and self.invoice_id.residual < self.invoice_id.amount_total) \
+                or (self.invoice_id.state == 'paid' and self.invoice_id.amount_total < self.apart_id.total_price):
             self.apart_status = 'reserved'
             self.apart_id.sudo().write({'status' : 'reserved'})
         if self.invoice_id.state == 'draft':
             self.apart_status = 'unsold'
             self.apart_id.sudo().write({'status' : 'unsold'})
-        if self.invoice_id.state == 'paid':
+        if self.invoice_id.state == 'paid' and self.invoice_id.amount_total == self.apart_id.total_price:
             self.apart_status = 'sold'
             self.apart_id.sudo().write({'status' : 'sold'})
+
         if self.invoice_id.notary_done == True:
             self.apart_status = 'notary_done'
             self.apart_id.sudo().write({'status': 'notary_done',

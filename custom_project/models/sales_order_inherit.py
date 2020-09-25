@@ -6,6 +6,14 @@ class SalesOrderInherit(models.Model):
 
     second_partner_id = fields.Many2one('res.partner',string='Customer',ondelete='cascade')
 
+    @api.multi
+    def _prepare_invoice(self):
+        res = super(SalesOrderInherit,self)._prepare_invoice()
+        res.update({
+            'second_partner_id':self.second_partner_id.id
+        })
+
+        return res
 
     # @api.multi
     # def _action_confirm(self):
@@ -48,7 +56,7 @@ class SalesOrderLineInherit(models.Model):
     def _prepare_invoice_line(self, qty):
         res = super(SalesOrderLineInherit, self)._prepare_invoice_line(qty)
         # if self.advance_payment_method == 'percentage':
-        res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id})
+        res.update({'project_id': self.project_id.id, 'apart_id': self.apart_id.id,'invoice_id.second_partner_id':self.order_id.second_partner_id.id})
         return res
 
 

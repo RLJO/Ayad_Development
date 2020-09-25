@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <template id="report_apartment_sales">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+<!--                        <div class="text-center">-->
+<!--                            <h2>Project Sales</h2>-->
+<!--                            <strong><span>For</span> <t t-esc="data['name']"/></strong>-->
+<!--                        </div>-->
+<!--                        <hr/>-->
+<!--                        <br/>-->
+                        <table class="text-center col-12">
+                            <thead>
+                                <tr >
+                                    <th style="margin-left:2px;margin-right:2px;border-left:1px solid black;
+                                                border-top:1px solid black;" rowspan="2">
+                                        Apartment
+                                    </th>
+                                    <th style="margin-right:2px;border-left:1px solid black;border-top:1px solid black;" rowspan="2">
+                                        Customers
+                                    </th>
+                                    <th style="margin-right:2px;border-left:1px solid black;border-top:1px solid black;" rowspan="2">
+                                        Status
+                                    </th>
+                                    <th style="margin-right:2px;border:1px solid black;" colspan="3">
+                                        Invoices
+                                    </th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th  style="border-left:1px solid black;border-bottom:1px solid black;">
+                                    </th>
+                                    <th  style="border-left:1px solid black;border-bottom:1px solid black;">
+                                    </th>
+                                    <th style="border-left:1px solid black;border-bottom:1px solid black;">
+                                    </th>
+                                    <th style="border-left:1px solid black;border-bottom:1px solid black;">
+                                       Name
+                                    </th>
+                                    <th style="border-left:1px solid black;border-bottom:1px solid black;">
+                                       Paid
+                                    </th>
+                                    <th style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;">
+                                       Unpaid
+                                    </th>
+                                </tr>
+                            </thead>
+<!--                            <tr t-foreach="data['products']" t-as="product" style="border: 1px solid black;border-top: none!important;">-->
+<!--                                <td style="margin-left:2px;margin-right:2px">-->
+<!--                                    <t t-esc="product['product_name']"/>-->
+<!--                                </td>-->
+<!--                                <td style="margin-right:2px">-->
+<!--                                    <t t-esc="product['desc']"/>-->
+<!--                                </td>-->
+<!--                                <td class="text-center align-middle" style="height: 4rem;margin-right:2px">-->
+<!--                                    <t t-if="product['barcode']">-->
+<!--                                        <img alt="Barcode" t-if="len(product['barcode']) == 13" t-att-src="'report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(product['barcode'] or ''), 600, 150)" style="width:50%;height:2rem;"/>-->
+<!--                                        <img alt="Barcode" t-elif="len(product['barcode']) == 8" t-att-src="'report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(product['barcode'] or ''), 600, 150)" style="width:50%;height:2rem;"/>-->
+<!--                                        <img alt="Barcode" t-else="" t-att-src="'report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(product['barcode'] or ''), 600, 150)" style="width:50%;height:2rem"/>-->
+<!--&lt;!&ndash;                                        <t t-esc="product['barcode']"/>&ndash;&gt;-->
+<!--                                    </t>-->
+<!--                                    <t t-else=""><span class="text-muted">No barcode available</span></t>-->
+<!--                                </td>-->
+<!--                                <td style="margin-right:2px">-->
+<!--                                    <t t-esc="product['qty_available']"/>-->
+<!--                                </td>-->
+<!--                                <td style="margin-right:2px">-->
+<!--                                    <t t-esc="product['qty_sold']"/>-->
+<!--                                </td>-->
+<!--                                <td style="margin-right:2px" >-->
+<!--                                    <t t-esc="product['location']"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                        </table>
+                    </div>
+                    <br/><br/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
