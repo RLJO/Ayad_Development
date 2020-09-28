@@ -105,17 +105,17 @@ class IrServer(models.Model):
             smtp_server = mail_server.smtp_host
             smtp_port = mail_server.smtp_port
             # smtp_user = mail_server.smtp_user
-            smtp_user = user.email or mail_server.smtp_user
+            smtp_user = user.email if user.email and user.email_pass else mail_server.smtp_user
             # smtp_password = mail_server.smtp_pass
-            smtp_password = str(user.email_pass) or mail_server.smtp_pass
+            smtp_password = str(user.email_pass) if user.email and user.email_pass else mail_server.smtp_pass
             smtp_encryption = mail_server.smtp_encryption
             smtp_debug = smtp_debug or mail_server.smtp_debug
         else:
             # we were passed individual smtp parameters or nothing and there is no default server
             smtp_server = host or tools.config.get('smtp_server')
             smtp_port = tools.config.get('smtp_port', 25) if port is None else port
-            smtp_user = user or tools.config.get('smtp_user')
-            smtp_password = password or tools.config.get('smtp_password')
+            smtp_user = user if user.email and user.email_pass else tools.config.get('smtp_user')
+            smtp_password = password if user.email and user.email_pass else tools.config.get('smtp_password')
             smtp_encryption = encryption
             if smtp_encryption is None and tools.config.get('smtp_ssl'):
                 smtp_encryption = 'starttls' # smtp_ssl => STARTTLS as of v7

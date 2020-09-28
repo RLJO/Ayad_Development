@@ -54,9 +54,18 @@ class AccountInvoiceLineInherit(models.Model):
         if self.invoice_id.state == 'draft':
             self.apart_status = 'unsold'
             self.apart_id.sudo().write({'status' : 'unsold'})
-        if self.invoice_id.state == 'paid' and self.invoice_id.amount_total == self.apart_id.total_price:
-            self.apart_status = 'sold'
-            self.apart_id.sudo().write({'status' : 'sold'})
+        if self.invoice_id.state == 'paid':
+            invoice_lines = self.env['account.invoice.line'].search([('apart_id.id','=',self.apart_id.id)])
+            total_amount = 0.0
+            for line in invoice_lines:
+                if line.invoice_id.state =='paid':
+                    total_amount += line.invoice_id.amount_total
+            if total_amount == self.apart_id.total_price:
+                self.apart_status = 'sold'
+                self.apart_id.sudo().write({'status' : 'sold'})
+            else:
+                self.apart_status = 'reserved'
+                self.apart_id.sudo().write({'status': 'reserved'})
 
         if self.invoice_id.notary_done == True:
             self.apart_status = 'notary_done'
