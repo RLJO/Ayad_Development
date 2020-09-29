@@ -8,6 +8,10 @@ import threading
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import except_orm, UserError
 from odoo.tools import ustr, pycompat, formataddr
+from odoo import models, fields, api
+import xlwt
+import base64
+import io
 
 SMTP_TIMEOUT = 60
 
@@ -55,6 +59,145 @@ class EmailNotify(models.Model):
                     'email_to': user.login,
                 }
                 mail.create(values).send()
+
+    def print_apartment_sales_report(self):
+        mail = self.env['mail.mail']
+        projects = self.env['project.site'].search([])
+        if projects:
+            filename = "Project Sales Report"
+            filename += '.xls'
+            workbook = xlwt.Workbook()
+        for project in projects:
+            invoice_lines = self.env['account.invoice.line'].search([('project_id.id','=',project.id),('apart_id','!=',False),('invoice_id.type','=','out_invoice')])
+            apartment_sales=[]
+            apartment_ids=[]
+            for line in invoice_lines:
+                # invoices_list = []
+                # partners =''
+                # if line.apart_id.status != 'unsold':
+                #     apartment_invoices = self.env['account.invoice'].search([('origin','=',line.order_id.name)])
+                #     for invoice in apartment_invoices:
+                #         invoice_dict={
+                #             'name':invoice.name,
+                #             'amount_paid':invoice.amount_total - invoice.residual,
+                #             'amount_unpaid':invoice.residual
+                #         }
+                #         invoices_list.append(invoice_dict)
+                order = self.env['sale.order'].search([('name','=',line.invoice_id.origin)],limit=1)
+                sales_person = order.user_id.name
+                confirmation_date = datetime.datetime.strftime(order.confirmation_date, "%m/%d/%Y")
+                if line.invoice_id.date_invoice:
+                    invoice_date = datetime.datetime.strftime(line.invoice_id.date_invoice, "%m/%d/%Y")
+                else:
+                    invoice_date = '-'
+
+
+                partners = line.invoice_id.partner_id.name
+                if line.invoice_id.second_partner_id:
+                    partners = partners+', '+line.invoice_id.second_partner_id.name
+                invoice_dict={
+                    'apartment':line.apart_id.name,
+                    'customers':partners,
+                    'responsible':sales_person,
+                    'order_confirmation':confirmation_date,
+                    'payment_date':invoice_date,
+                    'status': str(line.apart_id.status).capitalize(),
+                    'invoice': line.invoice_id.display_name,
+                    'desc': line.name if 'Down payment' in str(line.name) else '-',
+                    'amount_paid': 0.0 if line.invoice_id.state == 'draft' else line.invoice_id.amount_total - line.invoice_id.residual ,
+                    'amount_unpaid': line.invoice_id.amount_total if line.invoice_id.state == 'draft' else line.invoice_id.residual,
+                    'total': line.invoice_id.amount_total,
+                }
+                apartment_ids.append(line.apart_id.id)
+                apartment_sales.append(invoice_dict)
+            apartments = self.env['project.product'].search([('id','not in',apartment_ids),('project_no.id','=',project.id)])
+            for apartment in apartments:
+                invoice_dict = {
+                    'apartment': apartment.name,
+                    'customers': '-',
+                    'responsible': '-',
+                    'order_confirmation': '-',
+                    'payment_date': '-',
+                    'status': str(apartment.status).capitalize(),
+                    'invoice': 'Not Invoiced',
+                    'desc': '-',
+                    'amount_paid': '-',
+                    'amount_unpaid': '-',
+                    'total': '-',
+                }
+                apartment_sales.append(invoice_dict)
+
+            if apartment_sales:
+                # data_dict = {
+                #     'name'  : self.project.name,
+                #     'orders': apartment_sales
+                # }
+
+                worksheet = workbook.add_sheet(project.name)
+                style_header = xlwt.easyxf(
+                    "font:height 300; font: name Liberation Sans, bold on,color black; align: horiz center, vert center")
+                style_subheader = xlwt.easyxf(
+                    "font:height 200; font: name Liberation Sans, bold on,color black; align: horiz center")
+                style_line = xlwt.easyxf("align: horiz center")
+
+                worksheet.write_merge(0,1,0,10,project.name +' Sales Report',style=style_header)
+
+                worksheet.write(2, 0, 'Apartment', style = style_subheader)
+                worksheet.write(2, 1, 'Status', style = style_subheader)
+                worksheet.write(2, 2, 'Customers', style = style_subheader)
+                worksheet.write(2, 3, 'Responsible', style = style_subheader)
+                worksheet.write(2, 4, 'Order Confirmation Date', style = style_subheader)
+                worksheet.write(2, 5, 'Invoice',style = style_subheader)
+                worksheet.write(2, 6, 'Description',style = style_subheader)
+                worksheet.write(2, 7, 'Amount Paid', style = style_subheader)
+                worksheet.write(2, 8, 'Amount Unpaid', style = style_subheader)
+                worksheet.write(2, 9, 'Total', style = style_subheader)
+                worksheet.write(2, 10, 'Payment Date', style = style_subheader)
+                worksheet.col(2).width = 256*40
+                worksheet.col(4).width = 256*23
+                worksheet.col(5).width = 256*22
+                worksheet.col(6).width = 256*23
+                worksheet.col(7).width = 256*18
+                worksheet.col(8).width = 256*18
+                worksheet.col(3).width = 256*18
+                worksheet.col(10).width = 256*18
+                row = 3
+                for apartment in apartment_sales:
+                    worksheet.write(row,0, apartment['apartment'],style = style_line)
+                    worksheet.write(row,1, apartment['status'],style = style_line)
+                    worksheet.write(row,2, apartment['customers'],style = style_line)
+                    worksheet.write(row,3, apartment['responsible'],style = style_line)
+                    worksheet.write(row,4, apartment['order_confirmation'],style = style_line)
+                    worksheet.write(row,5, apartment['invoice'],style = style_line)
+                    worksheet.write(row,6, apartment['desc'],style = style_line)
+                    worksheet.write(row,7, apartment['amount_paid'],style = style_line)
+                    worksheet.write(row,8, apartment['amount_unpaid'],style = style_line)
+                    worksheet.write(row,9, apartment['total'],style = style_line)
+                    worksheet.write(row,10, apartment['payment_date'],style = style_line)
+                    row+=1
+        if apartment_sales:
+            fp = io.BytesIO()
+            workbook.save(fp)
+            excel_file =base64.encodestring(fp.getvalue())
+            attachment = self.env['ir.attachment'].create({
+                'name': 'Project Sales',
+                'datas': excel_file,
+                'datas_fname': filename,
+                'res_model': 'email.notify',
+                'type': 'binary'
+            })
+            message = "Hello Mr. Othman,<br><p>  Project wise apartment sales report is attached to the mail</p>"
+            values = {
+                'subject': "Project Sales",
+                'body_html': message,
+                'email_to': 'nitin.planetodoo@gmail.com',
+                'attachment_ids': [(6,0, [attachment.id])] or False,
+            }
+            mail.create(values).send()
+
+        else:
+            raise UserError('No sales found for the project')
+
 
 class IrServer(models.Model):
     _inherit='ir.mail_server'

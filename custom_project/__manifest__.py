@@ -38,7 +38,6 @@
 
         # 'report/apartment_sales_report.xml',
         # 'report/apartment_sales_report_template.xml',
-        'wizards/apartment_sales_wizard.xml'
 
 
     ],

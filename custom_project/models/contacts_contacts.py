@@ -85,6 +85,7 @@ class ContactsContacts(models.Model):
                 attachment = self.env['ir.attachment'].create({
                     'name': str(apartment.name),
                     'datas': apartment.document,
+                    'datas_fname': str(apartment.name)+"_doc.pdf",
                     'res_model': 'contacts.contacts',
                     'type':'binary'
                 })

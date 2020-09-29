@@ -15,6 +15,8 @@ access_project_site_manager,access.project.site.manager,custom_project.model_pro
 access_project_product_manager,access.project.product.manager,custom_project.model_project_product,custom_project.group_project_manager,1,1,1,1
 access_project_product_user,access.project.product.user,custom_project.model_project_product,custom_project.group_project_user,1,0,0,0
 
+access_email_notify,access.email.notify,custom_project.model_email_notify,custom_project.group_project_user,1,1,1,1
+
 
 
 
