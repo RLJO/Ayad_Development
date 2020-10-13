@@ -72,7 +72,7 @@ class ImportPartners(models.TransientModel):
 
                     project_obj = self.env['project.site'].search([('name', '=', project)])
 
-                    apartment_obj = self.env['project.product'].search([('name', '=', apartment_no)])
+                    apartment_obj = self.env['project.product'].search([('name', '=', apartment_no),('project_no.id','=',project_obj.id)])
                     if not apartment_obj:
                         # url = 'http://www.hrecos.org//images/Data/forweb/HRTVBSH.Metadata.pdf'
                         # if pdf_url:
@@ -86,8 +86,8 @@ class ImportPartners(models.TransientModel):
                                 pdf = base64.b64encode(binary.read())
                             except Exception as e:
                                 raise UserError(e)
-                    # project = self.env['project.product'].search([('id', '=', 522)])
-                    # project.write({'document': pdf})
+                        # project = self.env['project.product'].search([('id', '=', 522)])
+                        # project.write({'document': pdf})
                         apartment_vals = {
                             'land_title': title,
                             'name': apartment_no,
@@ -117,50 +117,46 @@ class ImportPartners(models.TransientModel):
                         #         'project_no': project_obj.id,
                         #     }
                     if apartment_obj:
-                        if project_obj.id == apartment_obj.project_no.id:
-                            print('Apartment already Exists with Project.')
-                        # if pdf_url:
-                        else:
-                            if pdf_url:
-                                try:
-                                    if pdf_url.__contains__('drive.google.com'):
-                                        pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
-                                        pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
-                                    request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
-                                    binary = req.urlopen(request)
-                                    pdf = base64.b64encode(binary.read())
-                                except Exception as e:
-                                    raise UserError(e)
-                            apartment_vals = {
-                                'land_title': title,
-                                'name': apartment_no,
-                                'part': part,
-                                'building_no' : building,
-                                'floor_no' : floor,
-                                'type_id' : type_no,
-                                'status' : status_apart,
-                                'carpet_area_no' : int_area,
-                                'terrace_area_no' : ext_area,
-                                'proj_price' : base_price,
-                                'project_no' : project_obj.id,
-                                'document' : pdf or False,
-                                }
-                            # else:
-                            #     apartment_vals = {
-                            #         'land_title': title,
-                            #         'name': apartment_no,
-                            #         'part': part,
-                            #         'building_no': building,
-                            #         'floor_no': floor,
-                            #         'type_id': type_no,
-                            #         'status': status_apart,
-                            #         'carpet_area_no': int_area,
-                            #         'terrace_area_no': ext_area,
-                            #         'proj_price': base_price,
-                            #         'project_no': project_obj.id,
-                            #     }
-                            # if account_type.id == 1 or account_type.id == 2:
-                            #     acc_vals.update({'reconcile': True})
+                        if pdf_url:
+                            try:
+                                if pdf_url.__contains__('drive.google.com'):
+                                    pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
+                                    pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
+                                request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
+                                binary = req.urlopen(request)
+                                pdf = base64.b64encode(binary.read())
+                            except Exception as e:
+                                raise UserError(e)
+                        apartment_vals = {
+                            'land_title': title,
+                            'name': apartment_no,
+                            'part': part,
+                            'building_no' : building,
+                            'floor_no' : floor,
+                            'type_id' : type_no,
+                            'status' : status_apart,
+                            'carpet_area_no' : int_area,
+                            'terrace_area_no' : ext_area,
+                            'proj_price' : base_price,
+                            'project_no' : project_obj.id,
+                            'document' : pdf or False,
+                            }
+                        # else:
+                        #     apartment_vals = {
+                        #         'land_title': title,
+                        #         'name': apartment_no,
+                        #         'part': part,
+                        #         'building_no': building,
+                        #         'floor_no': floor,
+                        #         'type_id': type_no,
+                        #         'status': status_apart,
+                        #         'carpet_area_no': int_area,
+                        #         'terrace_area_no': ext_area,
+                        #         'proj_price': base_price,
+                        #         'project_no': project_obj.id,
+                        #     }
+                        # if account_type.id == 1 or account_type.id == 2:
+                        #     acc_vals.update({'reconcile': True})
                     new_apartment_id = self.env['project.product'].sudo().create(apartment_vals)
 
                     _logger.info('-----row number %s already exists', key)
