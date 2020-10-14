@@ -12,18 +12,30 @@ class ProductPrice(models.TransientModel):
     apartment_id = fields.Many2one('project.product',string='Apartment:')
 
 
-    building_no = fields.Char(related='apartment_id.building_no',string='Building No:')
-    floor_no = fields.Char(related='apartment_id.floor_no',string='Floor No:')
-    type_id = fields.Char(related='apartment_id.type_id',string='Apartment Type:')
-    prod_price = fields.Float(related='apartment_id.proj_price',string="Unit Price:")
-    ext_unit_price = fields.Integer(related='apartment_id.ext_price',string='Exterior Unit Price:')
-    inter_unit_price = fields.Integer(related='apartment_id.interior_price',string='Interior Unit Price:')
+    building_no = fields.Char(string='Building No:')
+    floor_no = fields.Char(string='Floor No:')
+    type_id = fields.Char(string='Apartment Type:')
+    prod_price = fields.Float(string="Unit Price:")
+    ext_unit_price = fields.Integer(string='Exterior Unit Price:')
+    inter_unit_price = fields.Integer(string='Interior Unit Price:')
     unit_price = fields.Selection([('single','Unit Price'),('multiple','Multiple Unit Price')],string='Apartment Price:')
 
     @api.onchange('proj_id')
     def apartment_domain(self):
         for rec in self:
             return {'domain': {'apartment_id': [('project_no.id', '=', rec.proj_id.id)]}}
+
+    @api.onchange('proj_id','apartment_id')
+    def update_apartment_details(self):
+        for rec in self:
+            if rec.apartment_id:
+                rec.building_no = rec.apartment_id.building_no
+                rec.floor_no = rec.apartment_id.floor_no
+                rec.type_id = rec.apartment_id.type_id
+                rec.prod_price = rec.apartment_id.proj_price
+                rec.ext_unit_price = rec.apartment_id.ext_price
+                rec.inter_unit_price = rec.apartment_id.interior_price
+
 
     def price_update(self):
 
