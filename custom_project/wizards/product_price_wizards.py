@@ -59,8 +59,7 @@ class ProductPrice(models.TransientModel):
         for record in prod_obj:
             record.interior_price = self.inter_unit_price
             record.ext_price = self.ext_unit_price
-            record.total_price = (record.carpet_area_no + record.terrace_area_no) * record.proj_price
-
+            record.total_price = record.carpet_area_no * record.interior_price + record.terrace_area_no * record.ext_price
 
 
     def cancel(self):
