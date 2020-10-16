@@ -210,7 +210,8 @@
                                             <label style="font-weight: bold;" for ="document" string="Document"/>
                                         </td>
                                         <td>
-                                            <field name="document"/>
+                                            <field name="document_name" invisible="1"/>
+                                            <field name="document" widget="binary" height="64" filename="document_name"/>
                                         </td>
                                     </tr>
                                 </table>

@@ -22,6 +22,7 @@ class ProjectProduct(models.Model):
     interior_price = fields.Integer('Interior Unit Price')
     surface_area = fields.Integer('Total Surface Area:',compute='compute_area')
     document = fields.Binary("Document")
+    document_name = fields.Char("Document Name",compute='set_document_name')
     notary_done = fields.Boolean("Notary Done")
     # no_of_rooms = fields.Integer('Total Rooms')
 
@@ -35,6 +36,13 @@ class ProjectProduct(models.Model):
     #     res = super(ProjectProduct, self)._get_status_move_values(values)
     #     res['status'] = values.get('status', False)
     #     return res
+
+    @api.depends('project_no')
+    def set_document_name(self):
+        if self.project_no:
+            self.document_name = str(self.project_no.name)+".pdf"
+        else:
+            self.document_name = False
 
     @api.onchange('notary_done')
     def update_status(self):

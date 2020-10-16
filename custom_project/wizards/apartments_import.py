@@ -101,6 +101,7 @@ class ImportPartners(models.TransientModel):
                             'proj_price' : base_price,
                             'project_no' : project_obj.id,
                             'document' : pdf or False,
+                            'document_name' : str(project_obj.name)+".pdf",
                             }
                         # else:
                         #     apartment_vals = {
