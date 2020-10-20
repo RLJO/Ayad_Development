@@ -260,16 +260,14 @@
                     <field name="building_no"/>
                     <field name="floor_no"/>
                     <field name="type_id"/>
-
                     <field name="status"/>
-
                     <field name="carpet_area_no"/>
                     <field name="terrace_area_no"/>
                     <field name="surface_area"/>
                     <field name="proj_price" groups="custom_project.group_project_manager"/>
                     <field name="total_price" colspan="4"/>
 
-                    <field name="status"/>
+<!--                    <field name="status"/>-->
 
                 </tree>
             </field>

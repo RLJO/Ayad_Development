@@ -192,17 +192,28 @@ class CrmLead(models.Model):
 
     def prepare_lead_creation(self, lead, form):
         vals, notes = self.get_fields_from_data(lead, form)
-        if not vals.get('email_from') and lead.get('email'):
-            vals['email_from'] = lead['email']
-        if not vals.get('contact_name') and lead.get('full_name'):
-            vals['contact_name'] = lead['full_name']
-        if not vals.get('phone') and lead.get('phone_number'):
-            vals['phone'] = lead['phone_number']
+        # if not vals.get('email_from') and lead.get('email') or lead['e-mail']:
+        vals_email = lead.get('email') if lead.get('email') else lead.get('e-mail')
+        if not vals.get('email_from') and vals_email:
+            # vals['email_from'] = lead['email'] or lead['e-mail']
+            vals['email_from'] = vals_email
+        # if not vals.get('contact_name') and lead.get('full_name') or lead['prénom_et_nom']:
+        vals_contact_name = lead.get('full_name') if lead.get('full_name') else lead.get('prénom_et_nom')
+        if not vals.get('contact_name') and vals_contact_name:
+            # vals['contact_name'] = lead['full_name'] or lead['prénom_et_nom']
+            vals['contact_name'] = vals_contact_name
+        # if not vals.get('phone') and lead.get('phone_number') or lead['numéro_de_téléphone']:
+        vals_phone = lead.get('phone_number') if lead.get('phone_number') else lead.get('numéro_de_téléphone')
+        if not vals.get('phone') and vals_phone:
+            # vals['phone'] = lead['phone_number'] or lead['numéro_de_téléphone']
+            vals['phone'] = vals_phone
 
 
         mail = vals.get('email_from')
         phone = vals.get('phone')
-        sliced_phone= phone[-9:]
+
+        sliced_phone= phone[-9:] if phone else False
+
 
         # contact_searc_obj = self.env['res.partner'].search([('email', '=', vals['email_from']), ('phone', '=', vals['phone'])])
         contact_searc_obj = self.env['res.partner'].search([])
@@ -228,7 +239,7 @@ class CrmLead(models.Model):
             contact_id = self.env['res.partner'].create({
                                                         'name': vals.get('contact_name'),
                                                         'email': vals.get('email_from'),
-                                                        'phone': vals.get('phone'),
+                                                        'phone': vals.get('phone') if vals.get('phone') else False,
                                                         'customer': True,
                                                         'company_type': 'person',
                                                         })
@@ -240,6 +251,7 @@ class CrmLead(models.Model):
             'facebook_lead_id': lead['id'],
             'facebook_is_organic': lead['is_organic'],
             'name': self.get_opportunity_name(vals, lead, form),
+            'second_partner_id': False,
             'description': "\n".join(notes),
             'team_id': form.team_id and form.team_id.id,
             'campaign_id': form.campaign_id and form.campaign_id.id or

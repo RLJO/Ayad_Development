@@ -62,54 +62,73 @@ class EmailNotify(models.Model):
 
     def print_apartment_sales_report(self):
         mail = self.env['mail.mail']
+        move_line = self.env['account.invoice.line']
         projects = self.env['project.site'].search([])
         if projects:
             filename = "Project Sales Report"
             filename += '.xls'
             workbook = xlwt.Workbook()
         for project in projects:
-            invoice_lines = self.env['account.invoice.line'].search([('project_id.id','=',project.id),('apart_id','!=',False),('invoice_id.type','=','out_invoice')])
+            invoice_lines = move_line.search([('project_id.id','=',project.id),('apart_id','!=',False),('invoice_id.type','=','out_invoice')])
             apartment_sales=[]
             apartment_ids=[]
+            apartments_counted = []
             for line in invoice_lines:
-                # invoices_list = []
-                # partners =''
-                # if line.apart_id.status != 'unsold':
-                #     apartment_invoices = self.env['account.invoice'].search([('origin','=',line.order_id.name)])
-                #     for invoice in apartment_invoices:
-                #         invoice_dict={
-                #             'name':invoice.name,
-                #             'amount_paid':invoice.amount_total - invoice.residual,
-                #             'amount_unpaid':invoice.residual
-                #         }
-                #         invoices_list.append(invoice_dict)
-                order = self.env['sale.order'].search([('name','=',line.invoice_id.origin)],limit=1)
-                sales_person = order.user_id.name
-                confirmation_date = datetime.datetime.strftime(order.confirmation_date, "%m/%d/%Y")
-                if line.invoice_id.date_invoice:
-                    invoice_date = datetime.datetime.strftime(line.invoice_id.date_invoice, "%m/%d/%Y")
-                else:
-                    invoice_date = '-'
 
+                if line.id not in apartments_counted:
+                    move_names = line.invoice_id.display_name
+                    payment_date = line.invoice_id.date_invoice
+                    line_amount_paid = 0.0 if line.invoice_id.state == 'draft' else line.invoice_id.amount_total - line.invoice_id.residual
+                    line_amount_unpaid = line.invoice_id.amount_total if line.invoice_id.state == 'draft' else line.invoice_id.residual
+                    related_invoice_lines = move_line.search([('project_id.id','=',line.project_id.id),('apart_id.id','=',line.apart_id.id),('invoice_id.name','!=',line.invoice_id.name)])
+                    if related_invoice_lines:
+                        for related_line in related_invoice_lines:
+                            if related_line.invoice_id.date_invoice > payment_date:
+                                payment_date = related_line.invoice_id.date_invoice
+                            apartments_counted.append(related_line.id)
+                            move_names = move_names + ', ' + related_line.invoice_id.display_name
+                            line_amount_paid += 0.0 if related_line.invoice_id.state == 'draft' else related_line.invoice_id.amount_total - related_line.invoice_id.residual
+                            line_amount_unpaid += related_line.invoice_id.amount_total if related_line.invoice_id.state == 'draft' else related_line.invoice_id.residual
 
-                partners = line.invoice_id.partner_id.name
-                if line.invoice_id.second_partner_id:
-                    partners = partners+', '+line.invoice_id.second_partner_id.name
-                invoice_dict={
-                    'apartment':line.apart_id.name,
-                    'customers':partners,
-                    'responsible':sales_person,
-                    'order_confirmation':confirmation_date,
-                    'payment_date':invoice_date,
-                    'status': str(line.apart_id.status).capitalize(),
-                    'invoice': line.invoice_id.display_name,
-                    'desc': line.name if 'Down payment' in str(line.name) else '-',
-                    'amount_paid': 0.0 if line.invoice_id.state == 'draft' else line.invoice_id.amount_total - line.invoice_id.residual ,
-                    'amount_unpaid': line.invoice_id.amount_total if line.invoice_id.state == 'draft' else line.invoice_id.residual,
-                    'total': line.invoice_id.amount_total,
-                }
-                apartment_ids.append(line.apart_id.id)
-                apartment_sales.append(invoice_dict)
+                    # invoices_list = []
+                    # partners =''
+                    # if line.apart_id.status != 'unsold':
+                    #     apartment_invoices = self.env['account.invoice'].search([('origin','=',line.order_id.name)])
+                    #     for invoice in apartment_invoices:
+                    #         invoice_dict={
+                    #             'name':invoice.name,
+                    #             'amount_paid':invoice.amount_total - invoice.residual,
+                    #             'amount_unpaid':invoice.residual
+                    #         }
+                    #         invoices_list.append(invoice_dict)
+
+                    order = self.env['sale.order'].search([('name','=',line.invoice_id.origin)],limit=1)
+                    sales_person = order.user_id.name
+                    confirmation_date = datetime.datetime.strftime(order.confirmation_date, "%m/%d/%Y")
+                    if payment_date:
+                        invoice_date = datetime.datetime.strftime(payment_date, "%m/%d/%Y")
+                    else:
+                        invoice_date = '-'
+
+                    partners = line.invoice_id.partner_id.name
+                    if line.invoice_id.second_partner_id:
+                        partners = partners+', '+line.invoice_id.second_partner_id.name
+                    invoice_dict={
+                        'apartment':line.apart_id.name,
+                        'customers':partners,
+                        'responsible':sales_person,
+                        'order_confirmation':confirmation_date,
+                        'payment_date':invoice_date,
+                        'status': str(line.apart_id.status).capitalize(),
+                        'invoice': move_names,
+                        'desc': line.name if 'Down payment' in str(line.name) else '-',
+                        'amount_paid': line_amount_paid ,
+                        'amount_unpaid': line_amount_unpaid,
+                        # 'total': line.invoice_id.amount_total,
+                        'total': line_amount_paid + line_amount_unpaid,
+                    }
+                    apartment_ids.append(line.apart_id.id)
+                    apartment_sales.append(invoice_dict)
             apartments = self.env['project.product'].search([('id','not in',apartment_ids),('project_no.id','=',project.id)])
             for apartment in apartments:
                 invoice_dict = {
@@ -155,7 +174,7 @@ class EmailNotify(models.Model):
                 worksheet.write(2, 10, 'Payment Date', style = style_subheader)
                 worksheet.col(2).width = 256*40
                 worksheet.col(4).width = 256*23
-                worksheet.col(5).width = 256*22
+                worksheet.col(5).width = 256*40
                 worksheet.col(6).width = 256*23
                 worksheet.col(7).width = 256*18
                 worksheet.col(8).width = 256*18
@@ -308,4 +327,4 @@ class IrServer(models.Model):
 class ResUser(models.Model):
     _inherit='res.users'
 
-    email_pass = fields.Char("Email Password",required=True)
+    email_pass = fields.Char("Email Password")
