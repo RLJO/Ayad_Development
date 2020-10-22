@@ -1,0 +1,45 @@
+<odoo>
+
+    <record id="product_wizard_form" model="ir.ui.view">
+        <field name="name">product.price.wizards.form</field>
+        <field name="model">product.price.wizards</field>
+        <field name="arch" type="xml">
+            <form string="Update Price">
+                <group>
+                    <field name="proj_id"/>
+                    <field name="apartment_id"/>
+                </group>
+                <group>
+                    <field name="building_no"/>
+                    <field name="floor_no"/>
+                    <field name="type_id"/>
+                    <!--                    <field name="prod_price"/>-->
+                </group>
+                <group>
+                    <field name="unit_price" widget="radio"/>
+                    <field name="prod_price" attrs="{'invisible': [('unit_price','=','multiple')] }"/>
+                    <field name="ext_unit_price" attrs = "{'invisible':[('unit_price','!=','multiple')]}"/>
+                    <field name="inter_unit_price" attrs = "{'invisible':[('unit_price','!=','multiple')]}"/>
+                </group>
+                <footer>
+                    <button name="price_update" string="Update Price" type="object"/>
+
+                    <button name="cancel" string="Cancel" type="object"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="product_wizard_action" model="ir.actions.act_window">
+        <field name="name">Unit Price Wizard</field>
+        <field name="res_model">product.price.wizards</field>
+        <field name="binding_model_id" ref="custom_project.model_project_product"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="product_price_wizard" name="Update Price" parent="custom_project.project_site_menu" action="product_wizard_action" groups="custom_project.group_project_manager"/>
+
+</odoo>

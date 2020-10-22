@@ -2,7 +2,6 @@
 <odoo>
     <data>
 
-        <menuitem id="project_site_menu" name="Project Details"/>
 
         <record id="project_part_form" model="ir.ui.view">
             <field name="name">project.part.form</field>
@@ -43,7 +42,7 @@
 
             <menuitem id="project_part_main_menu" name="Project Part Details"
                action="project_part_action"
-              parent="project_site_menu"/>
+              parent="custom_project.project_site_menu"/>
 
     </data>
 </odoo>

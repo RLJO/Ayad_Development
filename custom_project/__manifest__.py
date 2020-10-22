@@ -15,9 +15,13 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'data/product_data.xml',
-        'views/apartments_import.xml',
         'views/project_product_view.xml',
+        'wizards/product_price_wizards_view.xml',
+        'wizards/apartments_import.xml',
+        'wizards/register_payment_wizard_inherit_view.xml',
         'views/project_site.xml',
+        'wizards/product_price_wizards_view.xml',
+        'wizards/apartments_import.xml',
         # 'views/project_part.xml',
         # 'views/project_status.xml',
         # 'views/project_type.xml',
@@ -27,8 +31,13 @@
         'views/contacts_contacts_view.xml',
         'views/sales_order_view_inherit.xml',
         'views/res_users.xml',
-        'views/sale_order_line_inherit.xml',
-        #'views/res_partner_view.xml',
+        # 'views/sale_order_line_inherit.xml',
+        'views/res_partner_view.xml',
+
+        'views/call_details_view.xml',
+
+        # 'report/apartment_sales_report.xml',
+        # 'report/apartment_sales_report_template.xml',
 
 
     ],

@@ -40,8 +40,5 @@
 
 
         <menuitem id="charts_csv_import" name="Import Apartments" parent="custom_project.project_site_menu" action="import_apartments_wizard_action"/>
-
-
-
     </data>
 </odoo>
