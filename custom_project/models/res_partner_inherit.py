@@ -20,3 +20,8 @@ class PartnerContactVisitorLine(models.Model):
     apartment_id = fields.Many2many('project.product', string='Visited Apartment')
 
     partner_id = fields.Many2one('res.partner')
+
+class ResUser(models.Model):
+    _inherit='res.users'
+
+    email_pass = fields.Char("Email Password")

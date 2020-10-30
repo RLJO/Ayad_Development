@@ -268,7 +268,9 @@ class CrmLead(models.Model):
 
     def lead_creation(self, lead, form):
         vals = self.prepare_lead_creation(lead, form)
-        return self.create(vals)
+        lead = self.env['crm.lead'].search([('partner_address_phone','=',vals.get('phone')),('type','in',('opportunity','lead'))])
+        if not lead:
+            return self.create(vals)
 
     def get_opportunity_name(self, vals, lead, form):
         if not vals.get('name'):
@@ -322,7 +324,8 @@ class CrmLead(models.Model):
             return
         for lead in r['data']:
             lead = self.process_lead_field_data(lead)
-            if not self.search([('facebook_lead_id', '=', lead.get('id')), '|', ('active', '=', True), ('active', '=', False)]):
+            # if not self.search([('facebook_lead_id', '=', lead.get('id')), '|', ('active', '=', True), ('active', '=', False)]):
+            if not self.search(['|',('facebook_lead_id', '=', lead.get('id')),('active', '=', True)]):
                 self.lead_creation(lead, form)
 
         # /!\ NOTE: Once finished a page let us commit that

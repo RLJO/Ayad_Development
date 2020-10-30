@@ -79,8 +79,9 @@ class EmailNotify(models.Model):
                     move_names = line.invoice_id.display_name
                     payment_date = line.invoice_id.date_invoice
                     line_amount_paid = 0.0 if line.invoice_id.state == 'draft' else line.invoice_id.amount_total - line.invoice_id.residual
-                    line_amount_unpaid = line.invoice_id.amount_total if line.invoice_id.state == 'draft' else line.invoice_id.residual
-                    related_invoice_lines = move_line.search([('project_id.id','=',line.project_id.id),('apart_id.id','=',line.apart_id.id),('invoice_id.name','!=',line.invoice_id.name)])
+                    # line_amount_unpaid = line.invoice_id.amount_total if line.invoice_id.state == 'draft' else line.invoice_id.residual
+                    line_amount_unpaid = line.invoice_id.amount_total if line.invoice_id.state == 'draft' else (line.apart_id.total_price - line_amount_paid)
+                    related_invoice_lines = move_line.search([('project_id.id','=',line.project_id.id),('apart_id.id','=',line.apart_id.id),('invoice_id.id','!=',line.invoice_id.id)])
                     if related_invoice_lines:
                         for related_line in related_invoice_lines:
                             if related_line.invoice_id.date_invoice > payment_date:
@@ -88,7 +89,7 @@ class EmailNotify(models.Model):
                             apartments_counted.append(related_line.id)
                             move_names = move_names + ', ' + related_line.invoice_id.display_name
                             line_amount_paid += 0.0 if related_line.invoice_id.state == 'draft' else related_line.invoice_id.amount_total - related_line.invoice_id.residual
-                            line_amount_unpaid += related_line.invoice_id.amount_total if related_line.invoice_id.state == 'draft' else related_line.invoice_id.residual
+                            line_amount_unpaid = related_line.invoice_id.amount_total if related_line.invoice_id.state == 'draft' else (related_line.apart_id.total_price - line_amount_paid)
 
                     # invoices_list = []
                     # partners =''
@@ -103,7 +104,7 @@ class EmailNotify(models.Model):
                     #         invoices_list.append(invoice_dict)
 
                     order = self.env['sale.order'].search([('name','=',line.invoice_id.origin)],limit=1)
-                    sales_person = order.user_id.name
+                    # sales_person = order.user_id.name
                     confirmation_date = datetime.datetime.strftime(order.confirmation_date, "%m/%d/%Y")
                     if payment_date:
                         invoice_date = datetime.datetime.strftime(payment_date, "%m/%d/%Y")
@@ -116,7 +117,7 @@ class EmailNotify(models.Model):
                     invoice_dict={
                         'apartment':line.apart_id.name,
                         'customers':partners,
-                        'responsible':sales_person,
+                        'responsible':line.project_id.res_users.name,
                         'order_confirmation':confirmation_date,
                         'payment_date':invoice_date,
                         'status': str(line.apart_id.status).capitalize(),
@@ -324,7 +325,4 @@ class IrServer(models.Model):
         return connection
 
 
-class ResUser(models.Model):
-    _inherit='res.users'
 
-    email_pass = fields.Char("Email Password")

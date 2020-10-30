@@ -77,9 +77,13 @@ class SalesOrderLineInherit(models.Model):
     #     for rec in self:
     #         return {'domain': {'apart_id': [('project_no', '=', 'sold')]}}
 
+    # @api.multi
+    # @api.onchange('product_id')
+    # def product_id_change(self):
+    #     pass
 
 
-
+    @api.multi
     @api.onchange('project_id')
     def status_apart(self):
         for rec in self:
@@ -87,12 +91,12 @@ class SalesOrderLineInherit(models.Model):
             if rec.project_id.id:
                 return {'domain': {'apart_id':  [('id', 'in', apart_ids.ids)]}}
 
-
+    @api.multi
     @api.onchange('apart_id')
     def status_change(self):
         for rec in self:
             if rec.apart_id:
                 rec.price_unit = rec.apart_id.total_price
-
+                rec.name = rec.apart_id.display_name
 
 
