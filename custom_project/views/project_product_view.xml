@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="project_site_menu" name="Project Details"/>
+
+        <record id="view_project_filter" model="ir.ui.view">
+            <field name="name">view.project.filter</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <search string="Search Move">
+                    <field name="name"/>
+                    <field name="project_no"/>
+                    <field name="ref_no"/>
+                    <field name="carpet_area_no"/>
+                    <field name="terrace_area_no"/>
+                    <field name="proj_price"/>
+                    <field name="type_id"/>
+                    <field name="part"/>
+                    <field name="floor_no"/>
+                    <field name="land_title"/>
+                    <field name="status"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="project_product_form" model="ir.ui.view">
+            <field name="name">project.product.form</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <form string="Site Status">
+                    <sheet>
+                        <group string="Apartment Details">
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="name" string="Apartment ID"/>
+                                        </td>
+                                        <td>
+                                            <field name="name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="ref_no" string="Reference No"/>
+                                        </td>
+                                        <td>
+                                            <field name="ref_no"/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </group>
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="project_no" string="Project"/>
+                                        </td>
+                                        <td>
+                                            <field name="project_no"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                        </group>
+                        <group string="Apartment Location">
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="part" string="Part"/>
+                                        </td>
+                                        <td>
+                                            <field name="part"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="building_no" string="Building No"/>
+                                        </td>
+                                        <td>
+                                            <field name="building_no"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="type_id" string="Type"/>
+                                        </td>
+                                        <td>
+                                            <field name="type_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="floor_no" string="Floor No"/>
+                                        </td>
+                                        <td>
+                                            <field name="floor_no"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                        </group>
+                        <group string="Area">
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="carpet_area_no" string="Interior Area"/>
+                                        </td>
+                                        <td>
+                                            <field name="carpet_area_no"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="surface_area" string="Total Surface Area"/>
+                                        </td>
+                                        <td>
+                                            <field name="surface_area"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="terrace_area_no" string="Exterior Area"/>
+                                        </td>
+                                        <td>
+                                            <field name="terrace_area_no"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                        </group>
+                        <group string="Pricing">
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="interior_price" string="Interior Unit Price"/>
+                                        </td>
+                                        <td>
+                                            <field name="interior_price"/>
+                                        </td>
+                                        <td>
+                                            <span>/meter square</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="proj_price" string="Unit Price"/>
+                                        </td>
+                                        <td>
+                                            <field name="proj_price"/>
+                                        </td>
+                                        <td>
+                                            <span>/meter square</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="ext_price" string="Exterior Unit Price"/>
+                                        </td>
+                                        <td>
+                                            <field name="ext_price"/>
+                                        </td>
+                                        <td>
+                                            <span>/meter square</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="total_price" string="Total Price"/>
+                                        </td>
+                                        <td>
+                                            <field name="total_price"/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </group>
+                        </group>
+                        <group string="Apartment Status">
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="status" string="Status"/>
+                                        </td>
+                                        <td>
+                                            <field name="status"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="document" string="Document"/>
+                                        </td>
+                                        <td>
+                                            <field name="document_name" invisible="1"/>
+                                            <field name="document" widget="binary" height="64" filename="document_name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="land_title" string="Land Title"/>
+                                        </td>
+                                        <td>
+                                            <field name="land_title"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label style="font-weight: bold;" for ="notary_done" string="Notary Done"
+                                                   attrs="{'invisible':[('status','!=','sold')]}"/>
+                                        </td>
+                                        <td>
+                                            <field name="notary_done" attrs="{'invisible':[('status','!=','sold')]}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                        </group>
+                    </sheet>
+
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_product_tree" model="ir.ui.view">
+            <field name="name">project.product.tree</field>
+            <field name="model">project.product</field>
+            <field name="arch" type="xml">
+                <tree string="Apartment Details">
+                    <field name="name"/>
+                    <field name="part"/>
+                    <field name="building_no"/>
+                    <field name="floor_no"/>
+                    <field name="type_id"/>
+                    <field name="status"/>
+                    <field name="carpet_area_no"/>
+                    <field name="terrace_area_no"/>
+                    <field name="surface_area"/>
+                    <field name="proj_price" groups="custom_project.group_project_manager"/>
+                    <field name="total_price" colspan="4"/>
+
+<!--                    <field name="status"/>-->
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_product_action" model="ir.actions.act_window">
+            <field name="name">Apartments</field>
+            <field name="res_model">project.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_project_no':[active_id]}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create New Apartment.
+                </p><p>
+                Description goes Here.
+            </p>
+            </field>
+        </record>
+
+
+        <record id="project_apartment_action" model="ir.actions.act_window">
+            <field name="name">Apartments</field>
+            <field name="res_model">project.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create New Apartment.
+                </p><p>
+                Description goes Here.
+            </p>
+            </field>
+        </record>
+
+
+        <menuitem id="project_status_main_menu" name="Apartment Details"
+                  action="project_apartment_action"
+                  parent="custom_project.project_site_menu"
+                  groups="base.group_no_one" />
+
+    </data>
+
+</odoo>

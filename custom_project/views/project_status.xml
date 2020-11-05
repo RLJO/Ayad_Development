@@ -2,7 +2,6 @@
 <odoo>
     <data>
 
-        <menuitem id="project_site_menu" name="Project Details"/>
 
         <record id="project_status_form" model="ir.ui.view">
             <field name="name">project.status.form</field>
@@ -31,8 +30,7 @@
         </record>
 
             <menuitem id="project_status_main_menu" name="Project Status Details"
-               action="project_status_action"
-              parent="project_site_menu"/>
+               action="project_status_action" parent="custom_project.project_site_menu"/>
 
     </data>
 </odoo>
