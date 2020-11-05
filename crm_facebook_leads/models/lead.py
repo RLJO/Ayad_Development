@@ -193,17 +193,17 @@ class CrmLead(models.Model):
     def prepare_lead_creation(self, lead, form):
         vals, notes = self.get_fields_from_data(lead, form)
         # if not vals.get('email_from') and lead.get('email') or lead['e-mail']:
-        vals_email = lead.get('email') if lead.get('email') else lead.get('e-mail')
+        vals_email = lead.get('email') or lead.get('e-mail')
         if not vals.get('email_from') and vals_email:
             # vals['email_from'] = lead['email'] or lead['e-mail']
             vals['email_from'] = vals_email
         # if not vals.get('contact_name') and lead.get('full_name') or lead['prénom_et_nom']:
-        vals_contact_name = lead.get('full_name') if lead.get('full_name') else lead.get('prénom_et_nom')
+        vals_contact_name = lead.get('full_name') or lead.get('prénom_et_nom') or lead.get('nom')
         if not vals.get('contact_name') and vals_contact_name:
             # vals['contact_name'] = lead['full_name'] or lead['prénom_et_nom']
             vals['contact_name'] = vals_contact_name
         # if not vals.get('phone') and lead.get('phone_number') or lead['numéro_de_téléphone']:
-        vals_phone = lead.get('phone_number') if lead.get('phone_number') else lead.get('numéro_de_téléphone')
+        vals_phone = lead.get('phone_number') or lead.get('numéro_de_téléphone') or lead.get('téléphone')
         if not vals.get('phone') and vals_phone:
             # vals['phone'] = lead['phone_number'] or lead['numéro_de_téléphone']
             vals['phone'] = vals_phone
@@ -268,7 +268,7 @@ class CrmLead(models.Model):
 
     def lead_creation(self, lead, form):
         vals = self.prepare_lead_creation(lead, form)
-        lead = self.env['crm.lead'].search([('partner_address_phone','=',vals.get('phone')),('type','in',('opportunity','lead'))])
+        lead = self.env['crm.lead'].search([('partner_address_phone','=',vals.get('phone'))])
         if not lead:
             return self.create(vals)
 
@@ -324,8 +324,8 @@ class CrmLead(models.Model):
             return
         for lead in r['data']:
             lead = self.process_lead_field_data(lead)
-            # if not self.search([('facebook_lead_id', '=', lead.get('id')), '|', ('active', '=', True), ('active', '=', False)]):
-            if not self.search(['|',('facebook_lead_id', '=', lead.get('id')),('active', '=', True)]):
+            if not self.search([('facebook_lead_id', '=', lead.get('id')), '|', ('active', '=', True), ('active', '=', False)]):
+            # if not self.search(['|',('facebook_lead_id', '=', lead.get('id')),('active', '=', True)]):
                 self.lead_creation(lead, form)
 
         # /!\ NOTE: Once finished a page let us commit that
