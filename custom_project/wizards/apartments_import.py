@@ -82,13 +82,12 @@ class ImportPartners(models.TransientModel):
                                     pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
                                     pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
                                 # request = req.Request(pdf_url, headers={'User-Agent': "odoo"})
-                                request = req.Request(pdf_url, headers={'User-Agent': "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7 odoo"})
-                               #  request = req.Request(pdf_url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-                               # 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                               # 'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                               # 'Accept-Encoding': 'none',
-                               # 'Accept-Language': 'en-US,en;q=0.8',
-                               # 'Connection': 'keep-alive'})
+                                request = req.Request(pdf_url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+                               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                               'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+                               'Accept-Encoding': 'none',
+                               'Accept-Language': 'en-US,en;q=0.8',
+                               'Connection': 'keep-alive'})
                                 binary = req.urlopen(request)
                                 pdf = base64.b64encode(binary.read())
                             except Exception as e:
@@ -130,13 +129,12 @@ class ImportPartners(models.TransientModel):
                                 if pdf_url.__contains__('drive.google.com'):
                                     pdf_url = re.sub("/file/d/", "/uc?export=download&id=", pdf_url)
                                     pdf_url = re.sub("/view\?usp=sharing", "", pdf_url)
-                                request = req.Request(pdf_url, headers={'User-Agent': "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7 odoo"})
-                               #  request = req.Request(pdf_url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-                               # 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                               # 'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                               # 'Accept-Encoding': 'none',
-                               # 'Accept-Language': 'en-US,en;q=0.8',
-                               # 'Connection': 'keep-alive'})
+                                request = req.Request(pdf_url, headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+                               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                               'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+                               'Accept-Encoding': 'none',
+                               'Accept-Language': 'en-US,en;q=0.8',
+                               'Connection': 'keep-alive'})
                                 binary = req.urlopen(request)
                                 pdf = base64.b64encode(binary.read())
                             except Exception as e:
