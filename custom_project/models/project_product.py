@@ -50,7 +50,7 @@ class ProjectProduct(models.Model):
             self.status = 'notary_done'
 
     @api.model
-    @api.depends('surface_area', 'carpet_area_no', 'terrace_area_no')
+    @api.depends('carpet_area_no', 'terrace_area_no')
     def compute_area(self):
         for record in self:
             record['surface_area'] = record.carpet_area_no + record.terrace_area_no
